@@ -187,9 +187,9 @@
         "placeholder": "Enter your email address",
         "button_text": "Subscribe",
         "form_action": "/contact#newsletter",
-        "gradient_start": "#2563eb",
-        "gradient_end": "#1d4ed8",
-        "button_text_color": "#2563eb"
+        "gradient_start": "#0ea5e9",
+        "gradient_end": "#0284c7",
+        "button_text_color": "#0ea5e9"
       }
     },
     "why-choose-us": {

@@ -24,7 +24,7 @@ export function Home({ onSearch, onNavigate }: HomeProps) {
       title: "Lorem Ipsum Dolor Sit Amet",
       subtitle: "Consectetur adipiscing elit sed do eiusmod tempor incididunt",
       cta: "Shop Now",
-      bgColor: "from-blue-600 to-blue-700",
+      bgColor: "from-sky-500 to-sky-600",
       image: "https://placehold.co/1920x600/a1a1aa/52525b?text=Hero+Image"
     },
     {
@@ -135,7 +135,7 @@ export function Home({ onSearch, onNavigate }: HomeProps) {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       {/* Top Promo Bar */}
       {showPromoBar && (
-        <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2.5 px-4 relative">
+        <div className="bg-gradient-to-r from-sky-500 to-sky-600 text-white py-2.5 px-4 relative">
           <div className="max-w-7xl mx-auto flex items-center justify-center gap-2 text-sm">
             <Truck className="w-4 h-4" />
             <span>Free Shipping on Orders Over $50 | Use Code: FREESHIP</span>
@@ -281,7 +281,7 @@ export function Home({ onSearch, onNavigate }: HomeProps) {
           <form onSubmit={handleSubmit}>
             <div className="relative group">
               <Search 
-                className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" 
+                className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-sky-500 transition-colors" 
                 size={20} 
               />
               <input
@@ -289,7 +289,7 @@ export function Home({ onSearch, onNavigate }: HomeProps) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search thousands of products..."
-                className="w-full pl-14 pr-6 py-4 border border-slate-200 rounded-xl bg-white hover:border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 focus:outline-none transition-all shadow-sm hover:shadow-md"
+                className="w-full pl-14 pr-6 py-4 border border-slate-200 rounded-xl bg-white hover:border-slate-300 focus:border-sky-500 focus:ring-4 focus:ring-sky-100 focus:outline-none transition-all shadow-sm hover:shadow-md"
               />
               <button
                 type="submit"
@@ -312,7 +312,7 @@ export function Home({ onSearch, onNavigate }: HomeProps) {
             </div>
             <button 
               onClick={() => onNavigate('/products')}
-              className="text-blue-600 hover:text-blue-700 flex items-center gap-1 text-sm"
+              className="text-sky-500 hover:text-sky-600 flex items-center gap-1 text-sm"
             >
               View All
               <ChevronRight className="w-4 h-4" />
@@ -343,7 +343,7 @@ export function Home({ onSearch, onNavigate }: HomeProps) {
       <section className="py-16 px-6 bg-slate-50/50">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-2 mb-8">
-            <TrendingUp className="w-6 h-6 text-blue-600" />
+            <TrendingUp className="w-6 h-6 text-sky-500" />
             <h3 className="text-slate-900">Best Sellers</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -364,7 +364,7 @@ export function Home({ onSearch, onNavigate }: HomeProps) {
                   </div>
                 </div>
                 <div className="p-4">
-                  <h4 className="text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">{product.name}</h4>
+                  <h4 className="text-slate-900 mb-2 group-hover:text-sky-500 transition-colors">{product.name}</h4>
                   <div className="text-slate-900">{product.price}</div>
                 </div>
               </div>
@@ -498,7 +498,7 @@ export function Home({ onSearch, onNavigate }: HomeProps) {
                   </div>
                 </div>
                 <div className="p-4">
-                  <h4 className="text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">{product.name}</h4>
+                  <h4 className="text-slate-900 mb-2 group-hover:text-sky-500 transition-colors">{product.name}</h4>
                   <div className="text-slate-900">{product.price}</div>
                 </div>
               </div>
@@ -508,11 +508,11 @@ export function Home({ onSearch, onNavigate }: HomeProps) {
       </section>
 
       {/* Newsletter / Email Capture */}
-      <section className="py-16 px-6 bg-gradient-to-r from-blue-600 to-blue-700">
+      <section className="py-16 px-6 bg-gradient-to-r from-sky-500 to-sky-600">
         <div className="max-w-4xl mx-auto text-center text-white">
           <Mail className="w-12 h-12 mx-auto mb-4" />
           <h3 className="mb-3">Get 10% Off Your First Order</h3>
-          <p className="text-blue-100 mb-8 text-lg">
+          <p className="text-sky-100 mb-8 text-lg">
             Join our newsletter for exclusive deals, new product alerts, and business tips
           </p>
           <form onSubmit={handleEmailSubmit} className="max-w-md mx-auto">
@@ -527,7 +527,7 @@ export function Home({ onSearch, onNavigate }: HomeProps) {
               />
               <button
                 type="submit"
-                className="px-6 py-3 bg-white text-blue-600 rounded-lg hover:bg-blue-50 transition-all"
+                className="px-6 py-3 bg-white text-sky-500 rounded-lg hover:bg-sky-50 transition-all"
               >
                 Subscribe
               </button>
@@ -548,21 +548,21 @@ export function Home({ onSearch, onNavigate }: HomeProps) {
               </p>
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
-                  <Shield className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <Shield className="w-5 h-5 text-sky-500 mt-0.5 flex-shrink-0" />
                   <div>
                     <div className="text-slate-900 mb-1">Verified Suppliers</div>
                     <p className="text-sm text-slate-600">All suppliers are thoroughly vetted for quality and reliability</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Truck className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <Truck className="w-5 h-5 text-sky-500 mt-0.5 flex-shrink-0" />
                   <div>
                     <div className="text-slate-900 mb-1">Fast Shipping</div>
                     <p className="text-sm text-slate-600">Quick delivery with tracking on all orders</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Star className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <Star className="w-5 h-5 text-sky-500 mt-0.5 flex-shrink-0" />
                   <div>
                     <div className="text-slate-900 mb-1">Quality Guarantee</div>
                     <p className="text-sm text-slate-600">30-day return policy on all products</p>

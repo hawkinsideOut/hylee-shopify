@@ -231,7 +231,7 @@ export function CategoryPage({ categoryId, onNavigate, onProductClick }: Categor
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-100 focus:outline-none transition-all"
+                className="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:border-sky-500 focus:ring-4 focus:ring-sky-100 focus:outline-none transition-all"
               >
                 <option value="relevance">Relevance</option>
                 <option value="price-low">Price: Low to High</option>

@@ -300,7 +300,7 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
                   {activeFiltersCount > 0 && (
                     <button
                       onClick={clearAllFilters}
-                      className="text-sm text-blue-600 hover:text-blue-700"
+                      className="text-sm text-sky-500 hover:text-sky-600"
                     >
                       Clear ({activeFiltersCount})
                     </button>
@@ -319,7 +319,7 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
                           value={category.id}
                           checked={selectedCategory === category.id}
                           onChange={(e) => setSelectedCategory(e.target.value)}
-                          className="w-4 h-4 text-blue-600 border-slate-300"
+                          className="w-4 h-4 text-sky-500 border-slate-300"
                         />
                         <span className="text-sm text-slate-700 flex-1 group-hover:text-slate-900">
                           {category.name}
@@ -360,7 +360,7 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
                           type="checkbox"
                           checked={selectedBrands.includes(brand)}
                           onChange={() => toggleBrand(brand)}
-                          className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                          className="rounded border-slate-300 text-sky-500 focus:ring-sky-500"
                         />
                         <span className="text-sm text-slate-700">{brand}</span>
                       </label>
@@ -379,7 +379,7 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
                           name="rating"
                           checked={minRating === rating}
                           onChange={() => setMinRating(rating)}
-                          className="text-blue-600 focus:ring-blue-500"
+                          className="text-sky-500 focus:ring-sky-500"
                         />
                         <div className="flex items-center gap-1">
                           <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
@@ -397,7 +397,7 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
                       type="checkbox"
                       checked={inStock}
                       onChange={(e) => setInStock(e.target.checked)}
-                      className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                      className="rounded border-slate-300 text-sky-500 focus:ring-sky-500"
                     />
                     <span className="text-sm text-slate-700">In Stock Only</span>
                   </label>
@@ -406,7 +406,7 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
                       type="checkbox"
                       checked={freeShipping}
                       onChange={(e) => setFreeShipping(e.target.checked)}
-                      className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                      className="rounded border-slate-300 text-sky-500 focus:ring-sky-500"
                     />
                     <span className="text-sm text-slate-700">Free Shipping</span>
                   </label>
@@ -458,7 +458,7 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="pl-4 pr-10 py-2 border border-slate-200 rounded-lg text-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-100 focus:outline-none transition-all appearance-none bg-white"
+                    className="pl-4 pr-10 py-2 border border-slate-200 rounded-lg text-sm focus:border-sky-500 focus:ring-4 focus:ring-sky-100 focus:outline-none transition-all appearance-none bg-white"
                   >
                     <option value="relevance">Relevance</option>
                     <option value="popular">Most Popular</option>
@@ -474,13 +474,13 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
 
             {/* Compare Bar */}
             {compareList.length > 0 && (
-              <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-xl flex items-center justify-between">
+              <div className="mb-6 p-4 bg-sky-50 border border-sky-200 rounded-xl flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <span className="text-sm text-blue-900">{compareList.length} product{compareList.length > 1 ? 's' : ''} selected</span>
+                  <span className="text-sm text-sky-900">{compareList.length} product{compareList.length > 1 ? 's' : ''} selected</span>
                   {compareList.map(id => {
                     const product = products.find(p => p.id === id);
                     return (
-                      <div key={id} className="flex items-center gap-2 px-3 py-1 bg-white rounded-lg border border-blue-200">
+                      <div key={id} className="flex items-center gap-2 px-3 py-1 bg-white rounded-lg border border-sky-200">
                         <span className="text-sm text-slate-700">{product?.name.substring(0, 20)}...</span>
                         <button onClick={() => toggleCompare(id)} className="text-slate-400 hover:text-slate-600">
                           <X className="w-3 h-3" />
@@ -493,7 +493,7 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
                   <button
                     onClick={() => setShowCompare(true)}
                     disabled={compareList.length < 2}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition-all text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Compare ({compareList.length})
                   </button>
@@ -514,7 +514,7 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
                   key={product.id}
                   className={`group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all border-2 ${
                     compareList.includes(product.id) 
-                      ? 'border-blue-600' 
+                      ? 'border-sky-500' 
                       : 'border-transparent'
                   } cursor-pointer`}
                   onClick={() => onProductClick(product.id)}
@@ -539,7 +539,7 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
                             badge.includes('Off') || badge.includes('%')
                               ? 'bg-red-600 text-white'
                               : badge === 'Bestseller'
-                              ? 'bg-blue-600 text-white'
+                              ? 'bg-sky-500 text-white'
                               : badge === 'Eco-Friendly'
                               ? 'bg-green-600 text-white'
                               : badge === 'Staff Pick'
@@ -560,7 +560,7 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
                           checked={compareList.includes(product.id)}
                           onChange={() => toggleCompare(product.id)}
                           disabled={!compareList.includes(product.id) && compareList.length >= 3}
-                          className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                          className="rounded border-slate-300 text-sky-500 focus:ring-sky-500"
                         />
                         <span className="text-xs text-slate-700">Compare</span>
                       </label>
@@ -580,7 +580,7 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
                           <Eye className="w-4 h-4" />
                           Quick View
                         </button>
-                        <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all flex items-center gap-2">
+                        <button className="px-6 py-3 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition-all flex items-center gap-2">
                           <ShoppingCart className="w-4 h-4" />
                           Add to Cart
                         </button>
@@ -592,7 +592,7 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
                   <div className={`p-4 ${viewMode === 'list' ? 'flex-1 flex flex-col justify-between' : ''}`}>
                     <div>
                       <h4
-                        className="text-slate-900 mb-2 group-hover:text-blue-600 transition-colors cursor-pointer line-clamp-2"
+                        className="text-slate-900 mb-2 group-hover:text-sky-500 transition-colors cursor-pointer line-clamp-2"
                         onClick={() => onProductClick(product.id)}
                       >
                         {product.name}
@@ -659,7 +659,7 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
                     {/* Footer */}
                     <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-sm">
                       <span className="text-slate-600">Min: {product.minOrder} units</span>
-                      <span className="text-blue-600">{product.supplier}</span>
+                      <span className="text-sky-500">{product.supplier}</span>
                     </div>
                   </div>
                 </div>
@@ -671,7 +671,7 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
               <div ref={observerTarget} className="py-8 text-center">
                 {loadingMore && (
                   <div className="flex items-center justify-center gap-2 text-slate-600">
-                    <div className="w-5 h-5 border-2 border-slate-300 border-t-blue-600 rounded-full animate-spin"></div>
+                    <div className="w-5 h-5 border-2 border-slate-300 border-t-sky-500 rounded-full animate-spin"></div>
                     <span>Loading more products...</span>
                   </div>
                 )}
@@ -688,7 +688,7 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
                 <p className="text-slate-600 mb-6">Try adjusting your filters or search query</p>
                 <button
                   onClick={clearAllFilters}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all"
+                  className="px-6 py-3 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition-all"
                 >
                   Clear All Filters
                 </button>
@@ -741,7 +741,7 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
                       </div>
                       <button
                         onClick={() => onProductClick(product.id)}
-                        className="w-full mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all"
+                        className="w-full mt-4 px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition-all"
                       >
                         View Details
                       </button>
@@ -780,7 +780,7 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
                           badge.includes('Off') || badge.includes('%')
                             ? 'bg-red-600 text-white'
                             : badge === 'Bestseller'
-                            ? 'bg-blue-600 text-white'
+                            ? 'bg-sky-500 text-white'
                             : badge === 'Eco-Friendly'
                             ? 'bg-green-600 text-white'
                             : badge === 'Staff Pick'
@@ -870,7 +870,7 @@ export function Products({ searchQuery, onNavigateHome, onProductClick, onNaviga
 
                   {/* Action Buttons */}
                   <div className="mt-auto space-y-3">
-                    <button className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all">
+                    <button className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-sky-500 text-white rounded-xl hover:bg-sky-600 transition-all">
                       <ShoppingCart className="w-5 h-5" />
                       Add to Cart
                     </button>

@@ -225,7 +225,7 @@ export function SubCategoryPage({ categoryId, subCategoryId, onNavigate, onProdu
                           type="checkbox"
                           checked={selectedBrands.includes(brand)}
                           onChange={() => toggleBrand(brand)}
-                          className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                          className="rounded border-slate-300 text-sky-500 focus:ring-sky-500"
                         />
                         <span className="text-sm text-slate-700">{brand}</span>
                       </label>
@@ -244,7 +244,7 @@ export function SubCategoryPage({ categoryId, subCategoryId, onNavigate, onProdu
                           onClick={() => toggleColor(color)}
                           className={`px-3 py-1.5 text-xs rounded-full border transition-all ${
                             selectedColors.includes(color)
-                              ? 'border-blue-600 bg-blue-50 text-blue-700'
+                              ? 'border-sky-500 bg-sky-50 text-sky-600'
                               : 'border-slate-200 text-slate-700 hover:border-slate-300'
                           }`}
                         >
@@ -266,7 +266,7 @@ export function SubCategoryPage({ categoryId, subCategoryId, onNavigate, onProdu
                           name="rating"
                           checked={minRating === rating}
                           onChange={() => setMinRating(rating)}
-                          className="text-blue-600 focus:ring-blue-500"
+                          className="text-sky-500 focus:ring-sky-500"
                         />
                         <div className="flex items-center gap-1">
                           <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
@@ -284,7 +284,7 @@ export function SubCategoryPage({ categoryId, subCategoryId, onNavigate, onProdu
                       type="checkbox"
                       checked={freeShipping}
                       onChange={(e) => setFreeShipping(e.target.checked)}
-                      className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                      className="rounded border-slate-300 text-sky-500 focus:ring-sky-500"
                     />
                     <span className="text-sm text-slate-700">Free Shipping Only</span>
                   </label>
@@ -315,7 +315,7 @@ export function SubCategoryPage({ categoryId, subCategoryId, onNavigate, onProdu
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-100 focus:outline-none transition-all"
+                  className="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:border-sky-500 focus:ring-4 focus:ring-sky-100 focus:outline-none transition-all"
                 >
                   <option value="relevance">Relevance</option>
                   <option value="price-low">Price: Low to High</option>
@@ -398,7 +398,7 @@ export function SubCategoryPage({ categoryId, subCategoryId, onNavigate, onProdu
                   
                   <div className="p-4">
                     <div className="text-xs text-slate-500 mb-1">{product.brand}</div>
-                    <h4 className="text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">{product.name}</h4>
+                    <h4 className="text-slate-900 mb-2 group-hover:text-sky-500 transition-colors">{product.name}</h4>
                     <div className="flex items-center gap-2 mb-2">
                       <div className="flex items-center gap-1 text-yellow-500">
                         <Star className="w-4 h-4 fill-current" />
