@@ -11,7 +11,7 @@
       
       {%- comment -%} Filters Sidebar {%- endcomment -%}
       {% if section.settings.enable_filtering %}
-        <aside class="collection-grid__sidebar">
+        <aside class="collection-grid__sidebar" id="collection-filters-{{ section.id }}">
           <div class="collection-grid__filters-sticky">
             
             {%- comment -%} Filter Header {%- endcomment -%}
@@ -107,6 +107,22 @@
         {%- comment -%} Toolbar {%- endcomment -%}
         <div class="collection-grid__toolbar">
           <div class="collection-grid__toolbar-left">
+            {% if section.settings.enable_filtering %}
+              <button class="collection-grid__filters-toggle" id="filters-toggle-{{ section.id }}" aria-label="Toggle filters">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="4" y1="21" x2="4" y2="14"></line>
+                  <line x1="4" y1="10" x2="4" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12" y2="3"></line>
+                  <line x1="20" y1="21" x2="20" y2="16"></line>
+                  <line x1="20" y1="12" x2="20" y2="3"></line>
+                  <line x1="1" y1="14" x2="7" y2="14"></line>
+                  <line x1="9" y1="8" x2="15" y2="8"></line>
+                  <line x1="17" y1="16" x2="23" y2="16"></line>
+                </svg>
+                <span class="collection-grid__filters-toggle-text">Hide Filters</span>
+              </button>
+            {% endif %}
             <span class="collection-grid__result-count">
               {{ collection.products_count }} {% if collection.products_count == 1 %}product{% else %}products{% endif %}
             </span>
@@ -287,6 +303,13 @@
 #collection-{{ section.id }} .collection-grid__sidebar {
   width: 16rem;
   flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+#collection-{{ section.id }} .collection-grid__sidebar.collection-grid__sidebar--hidden {
+  width: 0;
+  overflow: hidden;
+  margin-right: -2rem;
 }
 
 #collection-{{ section.id }} .collection-grid__filters-sticky {
@@ -399,6 +422,37 @@
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #e2e8f0;
+}
+
+#collection-{{ section.id }} .collection-grid__toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+#collection-{{ section.id }} .collection-grid__filters-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  background: white;
+  color: #475569;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+#collection-{{ section.id }} .collection-grid__filters-toggle:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+#collection-{{ section.id }} .collection-grid__filters-toggle svg {
+  flex-shrink: 0;
 }
 
 #collection-{{ section.id }} .collection-grid__result-count {
@@ -747,8 +801,47 @@
   #collection-{{ section.id }} .collection-grid__toolbar-right {
     justify-content: space-between;
   }
+  
+  #collection-{{ section.id }} .collection-grid__sidebar.collection-grid__sidebar--hidden {
+    display: none;
+  }
 }
 </style>
+
+<script>
+(function() {
+  const sectionId = '{{ section.id }}';
+  const filtersToggle = document.getElementById('filters-toggle-' + sectionId);
+  const filtersSidebar = document.getElementById('collection-filters-' + sectionId);
+  
+  if (filtersToggle && filtersSidebar) {
+    // Check localStorage for saved state
+    const savedState = localStorage.getItem('collection-filters-visible');
+    let filtersVisible = savedState !== 'false'; // Default to true
+    
+    // Set initial state
+    if (!filtersVisible) {
+      filtersSidebar.classList.add('collection-grid__sidebar--hidden');
+      filtersToggle.querySelector('.collection-grid__filters-toggle-text').textContent = 'Show Filters';
+    }
+    
+    filtersToggle.addEventListener('click', function() {
+      filtersVisible = !filtersVisible;
+      
+      if (filtersVisible) {
+        filtersSidebar.classList.remove('collection-grid__sidebar--hidden');
+        filtersToggle.querySelector('.collection-grid__filters-toggle-text').textContent = 'Hide Filters';
+      } else {
+        filtersSidebar.classList.add('collection-grid__sidebar--hidden');
+        filtersToggle.querySelector('.collection-grid__filters-toggle-text').textContent = 'Show Filters';
+      }
+      
+      // Save state to localStorage
+      localStorage.setItem('collection-filters-visible', filtersVisible);
+    });
+  }
+})();
+</script>
 
 {% endpaginate %}
 
