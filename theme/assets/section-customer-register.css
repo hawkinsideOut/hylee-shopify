@@ -18,6 +18,9 @@
 .customer-register {
   min-height: 100vh;
   background: linear-gradient(to bottom, var(--color-slate-50), white);
+  font-family: 'Assistant', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ========== Header ========== */
@@ -241,6 +244,10 @@
   display: block;
 }
 
+.customer-register__form-content--passwordless.customer-register__form-content--active {
+  display: flex;
+}
+
 .customer-register__form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -337,16 +344,26 @@
   flex-direction: column;
   gap: 0.75rem;
   padding-top: 0.5rem;
-  margin-bottom: 1.5rem;
+}
+
+.customer-register__checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
 }
 
 .customer-register__checkbox-wrapper {
   display: flex;
   align-items: start;
   gap: 0.75rem;
+  margin-bottom: 0.25rem;
 }
 
 .customer-register__checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   width: 1rem;
   height: 1rem;
   margin-top: 0.125rem;
@@ -354,17 +371,51 @@
   border-radius: 0.25rem;
   flex-shrink: 0;
   cursor: pointer;
+  background-color: #f3f3f5;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: all 0.15s ease;
+  position: relative;
+  outline: none;
+}
+
+.customer-register__checkbox:hover {
+  border-color: var(--color-slate-400);
+}
+
+.customer-register__checkbox:focus {
+  border-color: var(--color-green-primary);
+  box-shadow: 0 0 0 3px rgba(42, 200, 100, 0.1);
 }
 
 .customer-register__checkbox:checked {
-  background: var(--color-green-primary);
+  background-color: var(--color-green-primary);
   border-color: var(--color-green-primary);
+}
+
+.customer-register__checkbox:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0.875rem;
+  height: 0.875rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.customer-register__checkbox:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .customer-register__checkbox-label {
   font-size: 0.875rem;
   color: var(--color-slate-600);
   line-height: 1.25;
+  flex: 1;
 }
 
 .customer-register__link {
@@ -394,6 +445,10 @@
   transition: background 0.2s;
 }
 
+.customer-register__submit svg {
+  flex-shrink: 0;
+}
+
 .customer-register__submit:hover {
   background: var(--color-green-hover);
 }
@@ -404,18 +459,29 @@
 }
 
 /* ========== Passwordless Form ========== */
+.customer-register__passwordless-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.customer-register__form-content--passwordless.customer-register__form-content--active {
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .customer-register__passwordless-info {
   background: var(--color-slate-50);
   border: 1px solid var(--color-slate-200);
   border-radius: 0.5rem;
   padding: 1rem;
-  margin-bottom: 1.5rem;
 }
 
 .customer-register__passwordless-info p {
   font-size: 0.875rem;
   color: var(--color-slate-600);
   margin: 0;
+  line-height: 1.5;
 }
 
 /* ========== Value Props Section ========== */

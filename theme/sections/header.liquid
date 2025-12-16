@@ -152,7 +152,7 @@
             {{ 'header.actions.account' | t }}
           </a>
         {%- else -%}
-          <a href="{{ routes.account_login_url }}" class="header__action-link header__action-link--outline">
+          <a href="{{ routes.account_register_url }}" class="header__action-link header__action-link--outline">
             {{ 'header.actions.sign_in' | t }}
           </a>
         {%- endif -%}
@@ -246,7 +246,7 @@
           {{ 'header.actions.account' | t }}
         </a>
       {% else %}
-        <a href="{{ routes.account_login_url }}" class="header__mobile-link">
+        <a href="{{ routes.account_register_url }}" class="header__mobile-link">
           {{ 'header.actions.sign_in' | t }}
         </a>
       {% endif %}

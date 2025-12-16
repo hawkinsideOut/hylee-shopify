@@ -1,0 +1,187 @@
+{% comment %}
+  Customer Login Section
+  Enhanced design matching application theme
+{% endcomment %}
+
+{{ 'section-customer-login.css' | asset_url | stylesheet_tag }}
+
+<div class="customer-login min-h-screen bg-gradient-to-b from-slate-50 to-white">
+  {%- comment %-%} Header {%- endcomment -%}
+  <header class="customer-login__header">
+    <div class="customer-login__header-inner">
+      <a href="{{ routes.root_url }}" class="customer-login__logo">
+        {% if section.settings.logo %}
+          <img src="{{ section.settings.logo | image_url: width: 28 }}" alt="{{ shop.name }}" width="28" height="28" class="customer-login__logo-img">
+        {% else %}
+          <div class="customer-login__logo-placeholder">H</div>
+        {% endif %}
+        <span class="customer-login__logo-text">{{ shop.name }}</span>
+      </a>
+      <div class="customer-login__header-actions">
+        <span class="customer-login__signup-prompt">Don't have an account?</span>
+        <a href="{{ routes.account_register_url }}" class="customer-login__signup-btn">
+          Sign Up
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="customer-login__container">
+    <div class="customer-login__content">
+      <div class="customer-login__form-wrapper">
+        <div class="customer-login__form-header">
+          <h1 class="customer-login__title">Welcome Back</h1>
+          <p class="customer-login__subtitle">Sign in to access your {{ shop.name }} account</p>
+        </div>
+
+        {%- comment %-%} Social Login Options {%- endcomment -%}
+        <div class="customer-login__social-buttons">
+          <button type="button" class="customer-login__social-btn customer-login__social-btn--google">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M18.1713 8.36791H17.5001V8.33325H10.0001V11.6666H14.7096C14.0225 13.6069 12.1763 14.9999 10.0001 14.9999C7.23882 14.9999 5.00007 12.7612 5.00007 9.99992C5.00007 7.23867 7.23882 4.99992 10.0001 4.99992C11.2746 4.99992 12.4342 5.48075 13.3171 6.26617L15.6742 3.90909C14.1859 2.52217 12.1951 1.66659 10.0001 1.66659C5.39798 1.66659 1.66675 5.39784 1.66675 9.99992C1.66675 14.602 5.39798 18.3333 10.0001 18.3333C14.6022 18.3333 18.3334 14.602 18.3334 9.99992C18.3334 9.44117 18.2759 8.89575 18.1713 8.36791Z" fill="#FFC107"/>
+              <path d="M2.62756 6.12117L5.36548 8.129C6.10631 6.29484 7.90048 4.99984 10.0001 4.99984C11.2747 4.99984 12.4343 5.48067 13.3172 6.26609L15.6743 3.909C14.186 2.52209 12.1951 1.6665 10.0001 1.6665C6.79923 1.6665 4.02339 3.47384 2.62756 6.12117Z" fill="#FF3D00"/>
+              <path d="M10.0001 18.3333C12.1526 18.3333 14.1084 17.5095 15.5868 16.17L13.0084 13.9875C12.1433 14.6452 11.0859 15.0008 10.0001 15C7.83259 15 5.99176 13.6179 5.29843 11.6891L2.58426 13.7829C3.96051 16.4816 6.76134 18.3333 10.0001 18.3333Z" fill="#4CAF50"/>
+              <path d="M18.1713 8.36795H17.5V8.33328H10V11.6666H14.7096C14.3809 12.5902 13.7889 13.3972 13.0071 13.9879L13.0084 13.9871L15.5867 16.1696C15.4046 16.3354 18.3333 14.1666 18.3333 9.99995C18.3333 9.44162 18.2758 8.89578 18.1713 8.36795Z" fill="#1976D2"/>
+            </svg>
+            Continue with Google
+          </button>
+          <div class="customer-login__social-buttons-row">
+            <button type="button" class="customer-login__social-btn customer-login__social-btn--facebook">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M20 10C20 4.47715 15.5229 0 10 0C4.47715 0 0 4.47715 0 10C0 14.9912 3.65684 19.1283 8.4375 19.8785V12.8906H5.89844V10H8.4375V7.79688C8.4375 5.29063 9.93047 3.90625 12.2146 3.90625C13.3084 3.90625 14.4531 4.10156 14.4531 4.10156V6.5625H13.1922C11.95 6.5625 11.5625 7.3334 11.5625 8.125V10H14.3359L13.8926 12.8906H11.5625V19.8785C16.3432 19.1283 20 14.9912 20 10Z" fill="#1877F2"/>
+              </svg>
+              Facebook
+            </button>
+            <button type="button" class="customer-login__social-btn customer-login__social-btn--linkedin">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M18.5195 0H1.47656C0.660156 0 0 0.644531 0 1.44141V18.5547C0 19.3516 0.660156 20 1.47656 20H18.5195C19.3359 20 20 19.3516 20 18.5586V1.44141C20 0.644531 19.3359 0 18.5195 0ZM5.93359 17.043H2.96484V7.49609H5.93359V17.043ZM4.44922 6.19531C3.49609 6.19531 2.72656 5.42578 2.72656 4.47656C2.72656 3.52734 3.49609 2.75781 4.44922 2.75781C5.39844 2.75781 6.16797 3.52734 6.16797 4.47656C6.16797 5.42188 5.39844 6.19531 4.44922 6.19531ZM17.043 17.043H14.0781V12.4023C14.0781 11.2969 14.0586 9.87109 12.5352 9.87109C10.9922 9.87109 10.7578 11.0781 10.7578 12.3242V17.043H7.79688V7.49609H10.6406V8.80078H10.6797C11.0742 8.05078 12.043 7.25781 13.4844 7.25781C16.4883 7.25781 17.043 9.23438 17.043 11.8047V17.043Z" fill="#0077B5"/>
+              </svg>
+              LinkedIn
+            </button>
+          </div>
+        </div>
+
+        {%- comment %-%} Divider {%- endcomment -%}
+        <div class="customer-login__divider">
+          <span class="customer-login__divider-text">Or sign in with email</span>
+        </div>
+
+        {%- comment %-%} Login Form {%- endcomment -%}
+        {% form 'customer_login' %}
+          {{ form.errors | default_errors }}
+          
+          <div class="customer-login__field">
+            <label for="CustomerEmail" class="customer-login__label">Email</label>
+            <div class="customer-login__input-wrapper">
+              <svg class="customer-login__input-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              <input
+                type="email"
+                name="customer[email]"
+                id="CustomerEmail"
+                placeholder="john@company.com"
+                autocomplete="email"
+                class="customer-login__input"
+                {% if form.errors %}
+                  autofocus
+                {% endif %}
+                required
+              >
+            </div>
+          </div>
+
+          <div class="customer-login__field">
+            <label for="CustomerPassword" class="customer-login__label">Password</label>
+            <div class="customer-login__input-wrapper">
+              <svg class="customer-login__input-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              <input
+                type="password"
+                name="customer[password]"
+                id="CustomerPassword"
+                placeholder="••••••••"
+                class="customer-login__input customer-login__input--password"
+                required
+              >
+              <button type="button" class="customer-login__password-toggle" data-target="CustomerPassword">
+                <svg class="customer-login__eye-icon customer-login__eye-icon--hide" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+                <svg class="customer-login__eye-icon customer-login__eye-icon--show" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="customer-login__actions">
+            <div class="customer-login__checkbox-wrapper">
+              <input type="checkbox" id="RememberMe" class="customer-login__checkbox">
+              <label for="RememberMe" class="customer-login__checkbox-label">
+                Remember me
+              </label>
+            </div>
+            <a href="{{ routes.account_recover_url }}" class="customer-login__link">
+              Forgot password?
+            </a>
+          </div>
+
+          <button type="submit" class="customer-login__submit">
+            Sign In
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </button>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+
+  {%- comment %-%} Footer {%- endcomment -%}
+  <footer class="customer-login__footer">
+    <div class="customer-login__footer-inner">
+      <p class="customer-login__footer-copyright">
+        © {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.
+      </p>
+      <div class="customer-login__footer-links">
+        <a href="/pages/privacy" class="customer-login__footer-link">Privacy Policy</a>
+        <a href="/pages/terms" class="customer-login__footer-link">Terms of Service</a>
+        <a href="/pages/contact" class="customer-login__footer-link">Contact Support</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  // Password toggle functionality
+  document.querySelectorAll('.customer-login__password-toggle').forEach(toggle => {
+    toggle.addEventListener('click', function() {
+      const targetId = this.dataset.target;
+      const input = document.getElementById(targetId);
+      
+      if (input.type === 'password') {
+        input.type = 'text';
+        this.classList.add('customer-login__password-toggle--active');
+      } else {
+        input.type = 'password';
+        this.classList.remove('customer-login__password-toggle--active');
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Customer Login",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    }
+  ]
+}
+{% endschema %}

@@ -210,9 +210,13 @@
               </div>
             </div>
 
+            <div class="customer-register__captcha" style="margin-bottom: 1.5rem;">
+              <div class="g-recaptcha"></div>
+            </div>
+
             <button type="submit" class="customer-register__submit">
               Create Account
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </button>
@@ -220,7 +224,7 @@
         </div>
 
         {%- comment %-%} Passwordless Form {%- endcomment -%}
-        <div class="customer-register__form-content" data-tab-content="passwordless">
+        <div class="customer-register__form-content customer-register__form-content--passwordless" data-tab-content="passwordless">
           <div class="customer-register__passwordless-info">
             <p>
               We'll send you a secure link to create your account without a password. 
@@ -257,7 +261,7 @@
 
             <button type="submit" class="customer-register__submit">
               Send Magic Link
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </button>
