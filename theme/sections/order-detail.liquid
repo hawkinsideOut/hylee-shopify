@@ -10,7 +10,14 @@
   <header class="order-detail__header">
     <div class="order-detail__header-inner">
       <a href="{{ routes.root_url }}" class="order-detail__logo">
-        <span class="order-detail__logo-text">{{ shop.name }}</span>
+        <img 
+          src="https://placehold.co/28x28/71717a/ffffff?text=H" 
+          alt="{{ shop.name }}"
+          class="order-detail__logo-image"
+          width="28"
+          height="28"
+        >
+        <span class="order-detail__logo-text">Hylee</span>
       </a>
       <div class="order-detail__header-actions">
         <a href="/pages/track-order" class="order-detail__btn order-detail__btn--outline">Track Another Order</a>

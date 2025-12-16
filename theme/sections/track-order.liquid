@@ -10,7 +10,14 @@
   <header class="track-order__header">
     <div class="track-order__header-inner">
       <a href="{{ routes.root_url }}" class="track-order__logo">
-        <span class="track-order__logo-text">{{ shop.name }}</span>
+        <img 
+          src="https://placehold.co/28x28/71717a/ffffff?text=H" 
+          alt="{{ shop.name }}"
+          class="track-order__logo-image"
+          width="28"
+          height="28"
+        >
+        <span class="track-order__logo-text">Hylee</span>
       </a>
       <div class="track-order__header-actions">
         {% if customer %}

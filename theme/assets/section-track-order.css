@@ -39,6 +39,9 @@
 }
 
 .track-order__logo {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
   text-decoration: none;
   transition: opacity 0.2s;
 }
@@ -47,10 +50,17 @@
   opacity: 0.8;
 }
 
+.track-order__logo-image {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+}
+
 .track-order__logo-text {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
   letter-spacing: -0.025em;
-  color: var(--color-green-primary);
+  color: #0f172a;
 }
 
 .track-order__header-actions {
