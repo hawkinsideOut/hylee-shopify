@@ -104,10 +104,23 @@ document.addEventListener('DOMContentLoaded', function() {
     
     errorDiv.style.display = 'none';
     
-    // Redirect to Shopify's order status page
-    // Format: /tools/order-status?order={ORDER_NUMBER}&email={EMAIL}
-    const url = `/tools/order-status?order=${encodeURIComponent(orderNumber)}&email=${encodeURIComponent(email)}`;
-    window.location.href = url;
+    {% if customer %}
+      // For logged in customers, search their orders
+      fetch('/account')
+        .then(response => response.text())
+        .then(html => {
+          // Redirect to account page where they can see all orders
+          window.location.href = '/account';
+        })
+        .catch(error => {
+          errorDiv.textContent = 'Unable to access your orders. Please try again.';
+          errorDiv.style.display = 'block';
+        });
+    {% else %}
+      // For guest users, explain they need the order status link from email
+      errorDiv.innerHTML = 'Guest order tracking requires the unique order status link sent to your email.<br><br>Please check your email for "Order Confirmation" and click the "View your order" button, or <a href="/account/login" style="color: #2AC864; text-decoration: underline;">sign in to your account</a> to view all your orders.';
+      errorDiv.style.display = 'block';
+    {% endif %}
   });
 });
 </script>
