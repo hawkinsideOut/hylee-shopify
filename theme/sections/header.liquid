@@ -75,10 +75,42 @@
                 {%- assign l1_categories = collections | where: "metafields.custom.category_level", "L1" -%}
                 
                 {%- if l1_categories.size > 0 -%}
-                  {%- for collection in l1_categories limit: 20 -%}
-                    <a href="{{ collection.url }}" class="header__dropdown-item header__dropdown-item--category">
-                      {{ collection.title }}
-                    </a>
+                  {%- for l1_collection in l1_categories limit: 20 -%}
+                    <div class="header__category-item" data-category-hover>
+                      <a href="{{ l1_collection.url }}" class="header__dropdown-item header__dropdown-item--category header__dropdown-item--parent">
+                        {{ l1_collection.title }}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header__category-arrow">
+                          <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                      </a>
+                      
+                      {%- comment -%} Find L2 subcategories {%- endcomment -%}
+                      {%- assign l2_categories = collections | where: "metafields.custom.category_level", "L2" -%}
+                      {%- assign parent_handle = l1_collection.handle -%}
+                      {%- assign has_subcategories = false -%}
+                      
+                      {%- for l2_collection in l2_categories -%}
+                        {%- if l2_collection.metafields.custom.parent_category == parent_handle -%}
+                          {%- assign has_subcategories = true -%}
+                          {%- break -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                      
+                      {%- if has_subcategories -%}
+                        <div class="header__subcategory-menu hidden" data-subcategory-menu>
+                          <div class="header__subcategory-header">{{ l1_collection.title }}</div>
+                          <div class="header__subcategory-grid">
+                            {%- for l2_collection in l2_categories -%}
+                              {%- if l2_collection.metafields.custom.parent_category == parent_handle -%}
+                                <a href="{{ l2_collection.url }}" class="header__subcategory-item">
+                                  {{ l2_collection.title }}
+                                </a>
+                              {%- endif -%}
+                            {%- endfor -%}
+                          </div>
+                        </div>
+                      {%- endif -%}
+                    </div>
                   {%- endfor -%}
                 {%- else -%}
                   {%- comment -%} Fallback: Show main collections {%- endcomment -%}
@@ -301,6 +333,45 @@
         
         categoryToggle.setAttribute('aria-expanded', !isExpanded);
         categoryMenu.classList.toggle('hidden');
+      });
+      
+      // Subcategory hover functionality
+      const categoryItems = categoryMenu.querySelectorAll('[data-category-hover]');
+      
+      categoryItems.forEach(item => {
+        const subcategoryMenu = item.querySelector('[data-subcategory-menu]');
+        
+        if (subcategoryMenu) {
+          let hideTimeout;
+          
+          item.addEventListener('mouseenter', function() {
+            clearTimeout(hideTimeout);
+            // Hide all other subcategory menus
+            categoryItems.forEach(otherItem => {
+              if (otherItem !== item) {
+                const otherSubMenu = otherItem.querySelector('[data-subcategory-menu]');
+                if (otherSubMenu) {
+                  otherSubMenu.classList.add('hidden');
+                }
+              }
+            });
+            subcategoryMenu.classList.remove('hidden');
+          });
+          
+          item.addEventListener('mouseleave', function() {
+            hideTimeout = setTimeout(() => {
+              subcategoryMenu.classList.add('hidden');
+            }, 200);
+          });
+          
+          subcategoryMenu.addEventListener('mouseenter', function() {
+            clearTimeout(hideTimeout);
+          });
+          
+          subcategoryMenu.addEventListener('mouseleave', function() {
+            subcategoryMenu.classList.add('hidden');
+          });
+        }
       });
     }
   })();
