@@ -716,8 +716,8 @@
   };
 
   // Province/State handling for address forms
-  const Shopify = window.Shopify || {};
-  Shopify.CountryProvinceSelector = function(countryElement, provinceElement, options) {
+  window.Shopify = window.Shopify || {};
+  window.Shopify.CountryProvinceSelector = function(countryElement, provinceElement, options) {
     this.countryEl = countryElement;
     this.provinceEl = provinceElement;
     this.provinceContainer = document.getElementById(options.provinceContainer) || this.provinceEl.parentElement;
@@ -730,7 +730,7 @@
     this.initProvince();
   };
   
-  Shopify.CountryProvinceSelector.prototype = {
+  window.Shopify.CountryProvinceSelector.prototype = {
     initCountry: function() {
       const value = this.countryEl.getAttribute('data-default');
       this.countryEl.value = value || '';
@@ -786,7 +786,6 @@
   };
   
   // Country/Province data
-  window.Shopify = window.Shopify || {};
   window.Shopify.CountryProvinces = {
     "United States": [
       ["Alabama", "AL"], ["Alaska", "AK"], ["Arizona", "AZ"], ["Arkansas", "AR"],
@@ -815,7 +814,7 @@
   document.addEventListener('DOMContentLoaded', function() {
     // New address form
     if (document.getElementById('AddressCountryNew')) {
-      new Shopify.CountryProvinceSelector('AddressCountryNew', 'AddressProvinceNew', {
+      new window.Shopify.CountryProvinceSelector('AddressCountryNew', 'AddressProvinceNew', {
         provinceContainer: 'AddressProvinceNew'
       });
     }
@@ -827,7 +826,7 @@
       if (addressId && addressId !== 'New') {
         const provinceSelect = document.getElementById('AddressProvince' + addressId);
         if (provinceSelect) {
-          new Shopify.CountryProvinceSelector('AddressCountry' + addressId, 'AddressProvince' + addressId, {
+          new window.Shopify.CountryProvinceSelector('AddressCountry' + addressId, 'AddressProvince' + addressId, {
             provinceContainer: 'AddressProvince' + addressId
           });
         }
