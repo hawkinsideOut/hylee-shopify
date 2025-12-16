@@ -45,43 +45,81 @@
     {%- if variant == 'default' -%}
       {%- comment -%} Main Navigation {%- endcomment -%}
       <nav class="header__nav" role="navigation">
-        <a href="{{ routes.root_url }}" class="header__nav-link">
-          {{ 'header.navigation.home' | t }}
-        </a>
-        <a href="{{ routes.collections_url }}" class="header__nav-link">
-          {{ 'header.navigation.products' | t }}
-        </a>
-        
-        {%- if show_categories and linklists[section.settings.categories_menu].links.size > 0 -%}
-          <div class="header__categories">
+        {%- comment -%} Product Category Dropdown with L1 Categories {%- endcomment -%}
+        {%- if show_categories -%}
+          <div class="header__dropdown header__dropdown--categories">
             <button 
-              class="header__nav-link" 
+              class="header__nav-link header__dropdown-toggle" 
               aria-expanded="false"
-              aria-controls="categories-dropdown"
-              data-categories-toggle
+              aria-controls="product-category-dropdown"
+              data-category-dropdown-toggle
             >
-              {{ 'header.navigation.categories' | t }}
+              Product Category
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header__dropdown-arrow">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
             </button>
             
-            <div class="header__categories-menu hidden" id="categories-dropdown" data-categories-menu>
-              <div class="header__categories-overlay hidden" data-categories-overlay></div>
-              {%- for link in linklists[section.settings.categories_menu].links -%}
-                <a 
-                  href="{{ link.url }}" 
-                  class="header__categories-item"
-                >
-                  <span class="header__categories-icon">{{ link.object.metafields.custom.icon | default: '📁' }}</span>
-                  <div class="header__categories-info">
-                    <div class="header__categories-name">{{ link.title }}</div>
-                    {% if link.object.products_count %}
-                      <div class="header__categories-count">{{ link.object.products_count }}+ items</div>
-                    {% endif %}
-                  </div>
-                </a>
-              {%- endfor -%}
+            <div class="header__dropdown-menu header__dropdown-menu--wide hidden" id="product-category-dropdown" data-category-dropdown-menu>
+              <div class="header__dropdown-header">Categories</div>
+              <div class="header__dropdown-grid">
+                {%- assign l1_categories = collections | where: "metafields.custom.category_level", "L1" -%}
+                
+                {%- if l1_categories.size > 0 -%}
+                  {%- for collection in l1_categories limit: 20 -%}
+                    <a href="{{ collection.url }}" class="header__dropdown-item header__dropdown-item--category">
+                      {{ collection.title }}
+                    </a>
+                  {%- endfor -%}
+                {%- else -%}
+                  {%- comment -%} Fallback: Show main collections {%- endcomment -%}
+                  {%- for collection in collections limit: 20 -%}
+                    {%- unless collection.handle == 'all' -%}
+                      <a href="{{ collection.url }}" class="header__dropdown-item header__dropdown-item--category">
+                        {{ collection.title }}
+                      </a>
+                    {%- endunless -%}
+                  {%- endfor -%}
+                {%- endif -%}
+              </div>
             </div>
           </div>
         {%- endif -%}
+        
+        {%- comment -%} What's New Dropdown {%- endcomment -%}
+        <div class="header__dropdown">
+          <button 
+            class="header__nav-link header__dropdown-toggle" 
+            aria-expanded="false"
+            aria-controls="whats-new-dropdown"
+            data-whats-new-dropdown-toggle
+          >
+            What's New
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header__dropdown-arrow">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          
+          <div class="header__dropdown-menu hidden" id="whats-new-dropdown" data-whats-new-dropdown-menu>
+            <a href="/collections/deals-promotions" class="header__dropdown-item">
+              Deals & Promotions
+            </a>
+            <a href="/collections/new-arrivals" class="header__dropdown-item">
+              New Additions
+            </a>
+            <a href="/collections/seasonal" class="header__dropdown-item">
+              Season Item Spotlights
+            </a>
+            <a href="/collections/special-events" class="header__dropdown-item">
+              Special Events
+            </a>
+          </div>
+        </div>
+        
+        {%- comment -%} Blog Link {%- endcomment -%}
+        <a href="{{ blog.url | default: '/blogs/news' }}" class="header__nav-link">
+          Blog
+        </a>
 
         {%- if section.settings.show_about -%}
           <a href="{{ section.settings.about_link }}" class="header__nav-link">
@@ -140,6 +178,87 @@
         overlay.classList.add('hidden');
       });
     }
+  })();
+
+  // Product Category dropdown functionality
+  (function() {
+    const categoryToggle = document.querySelector('[data-category-dropdown-toggle]');
+    const categoryMenu = document.querySelector('[data-category-dropdown-menu]');
+
+    if (categoryToggle && categoryMenu) {
+      categoryToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isExpanded = categoryToggle.getAttribute('aria-expanded') === 'true';
+        
+        // Close other dropdowns
+        document.querySelectorAll('.header__dropdown-toggle').forEach(toggle => {
+          if (toggle !== categoryToggle) {
+            toggle.setAttribute('aria-expanded', 'false');
+          }
+        });
+        document.querySelectorAll('.header__dropdown-menu').forEach(menu => {
+          if (menu !== categoryMenu) {
+            menu.classList.add('hidden');
+          }
+        });
+        
+        categoryToggle.setAttribute('aria-expanded', !isExpanded);
+        categoryMenu.classList.toggle('hidden');
+      });
+    }
+  })();
+
+  // What's New dropdown functionality
+  (function() {
+    const whatsNewToggle = document.querySelector('[data-whats-new-dropdown-toggle]');
+    const whatsNewMenu = document.querySelector('[data-whats-new-dropdown-menu]');
+
+    if (whatsNewToggle && whatsNewMenu) {
+      whatsNewToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isExpanded = whatsNewToggle.getAttribute('aria-expanded') === 'true';
+        
+        // Close other dropdowns
+        document.querySelectorAll('.header__dropdown-toggle').forEach(toggle => {
+          if (toggle !== whatsNewToggle) {
+            toggle.setAttribute('aria-expanded', 'false');
+          }
+        });
+        document.querySelectorAll('.header__dropdown-menu').forEach(menu => {
+          if (menu !== whatsNewMenu) {
+            menu.classList.add('hidden');
+          }
+        });
+        
+        whatsNewToggle.setAttribute('aria-expanded', !isExpanded);
+        whatsNewMenu.classList.toggle('hidden');
+      });
+    }
+  })();
+
+  // Close dropdowns when clicking outside or pressing Escape
+  (function() {
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.header__dropdown')) {
+        document.querySelectorAll('.header__dropdown-toggle').forEach(toggle => {
+          toggle.setAttribute('aria-expanded', 'false');
+        });
+        document.querySelectorAll('.header__dropdown-menu').forEach(menu => {
+          menu.classList.add('hidden');
+        });
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.header__dropdown-toggle').forEach(toggle => {
+          toggle.setAttribute('aria-expanded', 'false');
+        });
+        document.querySelectorAll('.header__dropdown-menu').forEach(menu => {
+          menu.classList.add('hidden');
+        });
+      }
+    });
   })();
 </script>
 

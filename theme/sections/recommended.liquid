@@ -3,6 +3,7 @@
   Displays personalized product recommendations
 {% endcomment %}
 
+{% if section.settings.show_section %}
 <section class="recommended" id="recommended-{{ section.id }}">
   <div class="recommended__container">
     <div class="recommended__header">
@@ -55,6 +56,7 @@
     </div>
   </div>
 </section>
+{% endif %}
 
 <style>
 #recommended-{{ section.id }} {
@@ -195,6 +197,13 @@
 {
   "name": "Recommended For You",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": false,
+      "info": "Toggle to show/hide this section. Useful when you don't have recommendation data yet."
+    },
     {
       "type": "text",
       "id": "heading",

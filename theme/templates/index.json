@@ -1,49 +1,19 @@
 {
   "sections": {
-    "hero": {
-      "type": "hero",
-      "blocks": {
-        "slide-1": {
-          "type": "slide",
-          "settings": {
-            "heading": "Lorem Ipsum Dolor Sit Amet",
-            "subheading": "Consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "button_label": "Shop Now",
-            "button_link": "/collections/all"
-          }
-        },
-        "slide-2": {
-          "type": "slide",
-          "settings": {
-            "heading": "Ut Labore Et Dolore Magna",
-            "subheading": "Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
-            "button_label": "Explore Collection",
-            "button_link": "/collections"
-          }
-        },
-        "slide-3": {
-          "type": "slide",
-          "settings": {
-            "heading": "Excepteur Sint Occaecat",
-            "subheading": "Cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
-            "button_label": "Learn More",
-            "button_link": "/pages/about"
-          }
-        }
-      },
-      "block_order": ["slide-1", "slide-2", "slide-3"],
-      "settings": {}
-    },
-    "search-bar": {
-      "type": "search-bar",
+    "hero-search": {
+      "type": "hero-search",
       "settings": {
-        "heading": "Find the perfect products for your business",
-        "placeholder": "Search thousands of products...",
+        "heading": "Welcome to Our Marketplace",
+        "subheading": "Discover unique products from trusted vendors worldwide",
+        "search_placeholder": "Search products...",
         "button_text": "Search",
-        "background_color": "#ffffff",
-        "heading_color": "#0f172a",
-        "button_border_color": "#2AC864",
-        "button_text_color": "#2AC864"
+        "gradient_start": "#14b8a6",
+        "gradient_end": "#06b6d4",
+        "heading_color": "#ffffff",
+        "subheading_color": "#ffffff",
+        "button_background": "#10b981",
+        "button_hover_background": "#059669",
+        "button_text_color": "#ffffff"
       }
     },
     "featured-categories": {
@@ -53,7 +23,7 @@
           "type": "category",
           "settings": {
             "icon": "📱",
-            "title": "Lorem Ipsum",
+            "title": "Electronics",
             "count": "2,450+ items",
             "link": "/collections/electronics"
           }
@@ -62,7 +32,7 @@
           "type": "category",
           "settings": {
             "icon": "👔",
-            "title": "Dolor Sit",
+            "title": "Fashion",
             "count": "3,200+ items",
             "link": "/collections/fashion"
           }
@@ -71,7 +41,7 @@
           "type": "category",
           "settings": {
             "icon": "🏠",
-            "title": "Amet Consectetur",
+            "title": "Home & Living",
             "count": "1,800+ items",
             "link": "/collections/home"
           }
@@ -80,7 +50,7 @@
           "type": "category",
           "settings": {
             "icon": "⚽",
-            "title": "Adipiscing Elit",
+            "title": "Sports & Outdoors",
             "count": "1,500+ items",
             "link": "/collections/sports"
           }
@@ -89,7 +59,7 @@
           "type": "category",
           "settings": {
             "icon": "💄",
-            "title": "Sed Do Eiusmod",
+            "title": "Beauty & Personal Care",
             "count": "2,100+ items",
             "link": "/collections/beauty"
           }
@@ -97,8 +67,8 @@
         "category-6": {
           "type": "category",
           "settings": {
-            "icon": "🔍",
-            "title": "Tempor Incididunt",
+            "icon": "🍴",
+            "title": "Kitchen & Dining",
             "count": "980+ items",
             "link": "/collections/kitchen"
           }
@@ -116,46 +86,6 @@
         "description_color": "#64748b"
       }
     },
-    "best-sellers": {
-      "type": "best-sellers",
-      "settings": {
-        "heading": "Best Sellers",
-        "products_to_show": 4,
-        "badge_text": "Bestseller",
-        "badge_color": "#2699A6",
-        "background_color": "rgba(248, 250, 252, 0.5)"
-      }
-    },
-    "flash-deals": {
-      "type": "flash-deals",
-      "blocks": {
-        "deal-1": {
-          "type": "product",
-          "settings": {
-            "title": "Aliquip Ex Ea Commodo",
-            "discount_text": "50% OFF",
-            "sale_price": "$79.99",
-            "original_price": "$159.99"
-          }
-        },
-        "deal-2": {
-          "type": "product",
-          "settings": {
-            "title": "Duis Aute Irure Dolor",
-            "discount_text": "40% OFF",
-            "sale_price": "$179.99",
-            "original_price": "$299.99"
-          }
-        }
-      },
-      "block_order": ["deal-1", "deal-2"],
-      "settings": {
-        "heading": "Limited-Time Flash Deals",
-        "subheading": "Hurry! Deals end soon",
-        "button_text": "Grab Deal Now",
-        "show_countdown": true
-      }
-    },
     "new-arrivals": {
       "type": "new-arrivals",
       "settings": {
@@ -168,22 +98,48 @@
         "background_color": "#ffffff"
       }
     },
-    "recommended": {
-      "type": "recommended",
-      "settings": {
-        "heading": "Recommended For You",
-        "description": "Based on your browsing history",
-        "products_to_show": 4,
-        "badge_text": "For You",
-        "badge_color": "#9333ea",
-        "background_color": "rgba(248, 250, 252, 0.5)"
-      }
-    },
     "newsletter": {
       "type": "newsletter",
+      "blocks": {
+        "promo-1": {
+          "type": "promotion",
+          "settings": {
+            "icon": "🎁",
+            "heading": "Get 10% Off Your First Order",
+            "description": "Sign up today and receive an exclusive discount on your first purchase",
+            "badge_text": "NEW CUSTOMER OFFER"
+          }
+        },
+        "promo-2": {
+          "type": "promotion",
+          "settings": {
+            "icon": "🚚",
+            "heading": "Free Shipping on Orders Over $50",
+            "description": "Enjoy complimentary shipping on qualifying orders to your doorstep",
+            "badge_text": "FREE SHIPPING"
+          }
+        },
+        "promo-3": {
+          "type": "promotion",
+          "settings": {
+            "icon": "⚡",
+            "heading": "Flash Sale - Up to 30% Off",
+            "description": "Limited time offer on select products. Don't miss out on these incredible deals!",
+            "badge_text": "FLASH SALE"
+          }
+        },
+        "promo-4": {
+          "type": "promotion",
+          "settings": {
+            "icon": "💎",
+            "heading": "Exclusive VIP Rewards",
+            "description": "Join our loyalty program and earn points on every purchase",
+            "badge_text": "VIP EXCLUSIVE"
+          }
+        }
+      },
+      "block_order": ["promo-1", "promo-2", "promo-3", "promo-4"],
       "settings": {
-        "heading": "Get 10% Off Your First Order",
-        "description": "Join our newsletter for exclusive deals, new product alerts, and business tips",
         "placeholder": "Enter your email address",
         "button_text": "Subscribe",
         "form_action": "/contact#newsletter",
@@ -273,13 +229,9 @@
     }
   },
   "order": [
-    "hero",
-    "search-bar",
+    "hero-search",
     "featured-categories",
-    "best-sellers",
-    "flash-deals",
     "new-arrivals",
-    "recommended",
     "why-choose-us",
     "newsletter"
   ]

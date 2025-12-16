@@ -3,6 +3,7 @@
   Displays trending products with badges
 {% endcomment %}
 
+{% if section.settings.show_section %}
 <section class="best-sellers" id="best-sellers-{{ section.id }}">
   <div class="best-sellers__container">
     <div class="best-sellers__header">
@@ -56,6 +57,7 @@
     </div>
   </div>
 </section>
+{% endif %}
 
 <style>
 #best-sellers-{{ section.id }} {
@@ -197,6 +199,13 @@
 {
   "name": "Best Sellers",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": false,
+      "info": "Toggle to show/hide this section. Useful when you don't have best seller data yet."
+    },
     {
       "type": "text",
       "id": "heading",

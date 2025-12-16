@@ -3,6 +3,7 @@
   Displays limited-time deals with countdown
 {% endcomment %}
 
+{% if section.settings.show_section %}
 <section class="flash-deals" id="flash-deals-{{ section.id }}">
   <div class="flash-deals__container">
     <div class="flash-deals__header">
@@ -100,6 +101,7 @@
     </div>
   </div>
 </section>
+{% endif %}
 
 <style>
 #flash-deals-{{ section.id }} {
@@ -416,6 +418,13 @@
     }
   ],
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": false,
+      "info": "Toggle to show/hide this section. Useful when you don't have flash deal data yet."
+    },
     {
       "type": "text",
       "id": "heading",
