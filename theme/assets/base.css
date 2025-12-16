@@ -102,3 +102,10 @@ a:hover {
     rgb(var(--color-base-background-2))
   );
 }
+
+/* Hide main header and footer on customer pages (they have their own) */
+.template-customers #shopify-section-header,
+.template-customers #shopify-section-footer {
+  display: none;
+}
+

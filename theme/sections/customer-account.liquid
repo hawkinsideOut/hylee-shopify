@@ -248,47 +248,208 @@
         <div class="customer-account__section" data-section-content="addresses">
           <div class="customer-account__section-header">
             <h1 class="customer-account__title">Saved Addresses</h1>
-            <a href="{{ routes.account_addresses_url }}" class="customer-account__add-btn">
+            <button type="button" class="customer-account__add-btn" onclick="toggleAddressForm('new')">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
               </svg>
               Add New Address
-            </a>
+            </button>
+          </div>
+
+          {%- comment %-%} New Address Form {%- endcomment -%}
+          <div id="AddressNewForm" class="customer-account__address-form-wrapper" style="display: none;">
+            <div class="customer-account__settings-card">
+              <div class="customer-account__settings-header">
+                <h3 class="customer-account__settings-title">Add New Address</h3>
+                <button type="button" class="customer-account__close-btn" onclick="toggleAddressForm('new')">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              {% form 'customer_address', customer.new_address, data-shopify-captcha: 'true' %}
+                <div class="customer-account__form-grid">
+                  <div class="customer-account__form-field">
+                    <label for="AddressFirstNameNew" class="customer-account__form-label">First Name</label>
+                    <input type="text" name="address[first_name]" id="AddressFirstNameNew" class="customer-account__form-input" value="{{ form.first_name }}" required>
+                  </div>
+                  <div class="customer-account__form-field">
+                    <label for="AddressLastNameNew" class="customer-account__form-label">Last Name</label>
+                    <input type="text" name="address[last_name]" id="AddressLastNameNew" class="customer-account__form-input" value="{{ form.last_name }}" required>
+                  </div>
+                </div>
+                <div class="customer-account__form-field">
+                  <label for="AddressCompanyNew" class="customer-account__form-label">Company (Optional)</label>
+                  <input type="text" name="address[company]" id="AddressCompanyNew" class="customer-account__form-input" value="{{ form.company }}">
+                </div>
+                <div class="customer-account__form-field">
+                  <label for="AddressAddress1New" class="customer-account__form-label">Address Line 1</label>
+                  <input type="text" name="address[address1]" id="AddressAddress1New" class="customer-account__form-input" value="{{ form.address1 }}" required>
+                </div>
+                <div class="customer-account__form-field">
+                  <label for="AddressAddress2New" class="customer-account__form-label">Address Line 2 (Optional)</label>
+                  <input type="text" name="address[address2]" id="AddressAddress2New" class="customer-account__form-input" value="{{ form.address2 }}">
+                </div>
+                <div class="customer-account__form-grid">
+                  <div class="customer-account__form-field">
+                    <label for="AddressCityNew" class="customer-account__form-label">City</label>
+                    <input type="text" name="address[city]" id="AddressCityNew" class="customer-account__form-input" value="{{ form.city }}" required>
+                  </div>
+                  <div class="customer-account__form-field">
+                    <label for="AddressCountryNew" class="customer-account__form-label">Country</label>
+                    <select name="address[country]" id="AddressCountryNew" class="customer-account__form-input" data-default="{{ form.country }}" required>
+                      {{ country_option_tags }}
+                    </select>
+                  </div>
+                </div>
+                <div class="customer-account__form-grid">
+                  <div class="customer-account__form-field">
+                    <label for="AddressProvinceNew" class="customer-account__form-label">State/Province</label>
+                    <select name="address[province]" id="AddressProvinceNew" class="customer-account__form-input" data-default="{{ form.province }}">
+                      <option value="">Select State/Province</option>
+                    </select>
+                  </div>
+                  <div class="customer-account__form-field">
+                    <label for="AddressZipNew" class="customer-account__form-label">ZIP/Postal Code</label>
+                    <input type="text" name="address[zip]" id="AddressZipNew" class="customer-account__form-input" value="{{ form.zip }}" required>
+                  </div>
+                </div>
+                <div class="customer-account__form-field">
+                  <label for="AddressPhoneNew" class="customer-account__form-label">Phone (Optional)</label>
+                  <input type="tel" name="address[phone]" id="AddressPhoneNew" class="customer-account__form-input" value="{{ form.phone }}">
+                </div>
+                <div class="customer-account__form-checkbox">
+                  <input type="checkbox" name="address[default]" id="AddressDefaultNew" value="1">
+                  <label for="AddressDefaultNew">Set as default address</label>
+                </div>
+                <div class="customer-account__form-actions">
+                  <button type="submit" class="customer-account__save-btn">Add Address</button>
+                  <button type="button" class="customer-account__cancel-btn" onclick="toggleAddressForm('new')">Cancel</button>
+                </div>
+              {% endform %}
+            </div>
           </div>
 
           <div class="customer-account__addresses-grid">
             {% paginate customer.addresses by 6 %}
               {% for address in customer.addresses %}
-                <div class="customer-account__address-card">
+                <div class="customer-account__address-card" id="address-card-{{ address.id }}">
                   {% if address == customer.default_address %}
                     <span class="customer-account__address-badge">Default</span>
                   {% endif %}
-                  <div class="customer-account__address-content">
-                    <div class="customer-account__address-header">
-                      <svg class="customer-account__address-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2AC864">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                      <span class="customer-account__address-type">
-                        {% if address.company %}{{ address.company }}{% else %}Address{% endif %}
-                      </span>
+                  
+                  {%- comment %-%} Address Display {%- endcomment -%}
+                  <div class="customer-account__address-display" id="address-display-{{ address.id }}">
+                    <div class="customer-account__address-content">
+                      <div class="customer-account__address-header">
+                        <svg class="customer-account__address-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2AC864">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span class="customer-account__address-type">
+                          {% if address.company %}{{ address.company }}{% else %}Address{% endif %}
+                        </span>
+                      </div>
+                      <p class="customer-account__address-name">{{ address.name }}</p>
+                      <p class="customer-account__address-line">{{ address.address1 }}</p>
+                      {% if address.address2 != blank %}
+                        <p class="customer-account__address-line">{{ address.address2 }}</p>
+                      {% endif %}
+                      <p class="customer-account__address-line">
+                        {{ address.city }}, {{ address.province_code }} {{ address.zip }}
+                      </p>
+                      {% if address.phone != blank %}
+                        <p class="customer-account__address-line">{{ address.phone }}</p>
+                      {% endif %}
                     </div>
-                    <p class="customer-account__address-name">{{ address.name }}</p>
-                    <p class="customer-account__address-line">{{ address.address1 }}</p>
-                    {% if address.address2 != blank %}
-                      <p class="customer-account__address-line">{{ address.address2 }}</p>
-                    {% endif %}
-                    <p class="customer-account__address-line">
-                      {{ address.city }}, {{ address.province_code }} {{ address.zip }}
-                    </p>
+                    <div class="customer-account__address-actions">
+                      <button type="button" class="customer-account__address-btn" onclick="toggleAddressForm({{ address.id }})">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        Edit
+                      </button>
+                      <button type="button" class="customer-account__address-btn customer-account__address-btn--delete" onclick="confirmDeleteAddress({{ address.id }})">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        Delete
+                      </button>
+                    </div>
                   </div>
-                  <div class="customer-account__address-actions">
-                    <a href="{{ routes.account_addresses_url }}/{{ address.id }}/edit" class="customer-account__address-btn">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                      </svg>
-                      Edit
-                    </a>
+
+                  {%- comment %-%} Edit Form {%- endcomment -%}
+                  <div class="customer-account__address-edit-form" id="address-edit-{{ address.id }}" style="display: none;">
+                    {% form 'customer_address', address, data-shopify-captcha: 'true' %}
+                      <div class="customer-account__form-grid">
+                        <div class="customer-account__form-field">
+                          <label for="AddressFirstName{{ address.id }}" class="customer-account__form-label">First Name</label>
+                          <input type="text" name="address[first_name]" id="AddressFirstName{{ address.id }}" class="customer-account__form-input" value="{{ address.first_name }}" required>
+                        </div>
+                        <div class="customer-account__form-field">
+                          <label for="AddressLastName{{ address.id }}" class="customer-account__form-label">Last Name</label>
+                          <input type="text" name="address[last_name]" id="AddressLastName{{ address.id }}" class="customer-account__form-input" value="{{ address.last_name }}" required>
+                        </div>
+                      </div>
+                      <div class="customer-account__form-field">
+                        <label for="AddressCompany{{ address.id }}" class="customer-account__form-label">Company (Optional)</label>
+                        <input type="text" name="address[company]" id="AddressCompany{{ address.id }}" class="customer-account__form-input" value="{{ address.company }}">
+                      </div>
+                      <div class="customer-account__form-field">
+                        <label for="AddressAddress1{{ address.id }}" class="customer-account__form-label">Address Line 1</label>
+                        <input type="text" name="address[address1]" id="AddressAddress1{{ address.id }}" class="customer-account__form-input" value="{{ address.address1 }}" required>
+                      </div>
+                      <div class="customer-account__form-field">
+                        <label for="AddressAddress2{{ address.id }}" class="customer-account__form-label">Address Line 2 (Optional)</label>
+                        <input type="text" name="address[address2]" id="AddressAddress2{{ address.id }}" class="customer-account__form-input" value="{{ address.address2 }}">
+                      </div>
+                      <div class="customer-account__form-grid">
+                        <div class="customer-account__form-field">
+                          <label for="AddressCity{{ address.id }}" class="customer-account__form-label">City</label>
+                          <input type="text" name="address[city]" id="AddressCity{{ address.id }}" class="customer-account__form-input" value="{{ address.city }}" required>
+                        </div>
+                        <div class="customer-account__form-field">
+                          <label for="AddressCountry{{ address.id }}" class="customer-account__form-label">Country</label>
+                          <select name="address[country]" id="AddressCountry{{ address.id }}" class="customer-account__form-input" data-default="{{ address.country }}" required>
+                            {{ country_option_tags }}
+                          </select>
+                        </div>
+                      </div>
+                      <div class="customer-account__form-grid">
+                        <div class="customer-account__form-field">
+                          <label for="AddressProvince{{ address.id }}" class="customer-account__form-label">State/Province</label>
+                          <select name="address[province]" id="AddressProvince{{ address.id }}" class="customer-account__form-input" data-default="{{ address.province }}">
+                            <option value="">Select State/Province</option>
+                          </select>
+                        </div>
+                        <div class="customer-account__form-field">
+                          <label for="AddressZip{{ address.id }}" class="customer-account__form-label">ZIP/Postal Code</label>
+                          <input type="text" name="address[zip]" id="AddressZip{{ address.id }}" class="customer-account__form-input" value="{{ address.zip }}" required>
+                        </div>
+                      </div>
+                      <div class="customer-account__form-field">
+                        <label for="AddressPhone{{ address.id }}" class="customer-account__form-label">Phone (Optional)</label>
+                        <input type="tel" name="address[phone]" id="AddressPhone{{ address.id }}" class="customer-account__form-input" value="{{ address.phone }}">
+                      </div>
+                      {% if address != customer.default_address %}
+                        <div class="customer-account__form-checkbox">
+                          <input type="checkbox" name="address[default]" id="AddressDefault{{ address.id }}" value="1">
+                          <label for="AddressDefault{{ address.id }}">Set as default address</label>
+                        </div>
+                      {% endif %}
+                      <div class="customer-account__form-actions">
+                        <button type="submit" class="customer-account__save-btn">Save Changes</button>
+                        <button type="button" class="customer-account__cancel-btn" onclick="toggleAddressForm({{ address.id }})">Cancel</button>
+                      </div>
+                    {% endform %}
+                  </div>
+
+                  {%- comment %-%} Hidden Delete Form {%- endcomment -%}
+                  <div style="display: none;">
+                    {% form 'customer_address', address, data-shopify-captcha: 'true' %}
+                      <input type="hidden" name="_method" value="delete">
+                      <button type="submit" id="delete-address-{{ address.id }}">Delete</button>
+                    {% endform %}
                   </div>
                 </div>
               {% else %}
@@ -298,7 +459,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                   <p>No addresses saved yet</p>
-                  <a href="{{ routes.account_addresses_url }}" class="customer-account__empty-state-btn">Add Address</a>
+                  <button type="button" class="customer-account__empty-state-btn" onclick="toggleAddressForm('new')">Add Address</button>
                 </div>
               {% endfor %}
             {% endpaginate %}
@@ -316,7 +477,7 @@
               <div class="customer-account__settings-header">
                 <h3 class="customer-account__settings-title">Personal Information</h3>
               </div>
-              <div class="customer-account__settings-content">
+              <div class="customer-account__settings-content customer-account__settings-view">
                 <div class="customer-account__settings-item">
                   <label class="customer-account__settings-label">Name</label>
                   <p class="customer-account__settings-value">{{ customer.name }}</p>
@@ -326,8 +487,49 @@
                   <p class="customer-account__settings-value">{{ customer.email }}</p>
                 </div>
               </div>
+              <div class="customer-account__settings-form" style="display: none;">
+                {% form 'customer' %}
+                  <div class="customer-account__form-field">
+                    <label for="CustomerFirstName" class="customer-account__form-label">First Name</label>
+                    <input
+                      type="text"
+                      name="customer[first_name]"
+                      id="CustomerFirstName"
+                      value="{{ customer.first_name }}"
+                      class="customer-account__form-input"
+                      required
+                    >
+                  </div>
+                  <div class="customer-account__form-field">
+                    <label for="CustomerLastName" class="customer-account__form-label">Last Name</label>
+                    <input
+                      type="text"
+                      name="customer[last_name]"
+                      id="CustomerLastName"
+                      value="{{ customer.last_name }}"
+                      class="customer-account__form-input"
+                      required
+                    >
+                  </div>
+                  <div class="customer-account__form-field">
+                    <label for="CustomerEmail" class="customer-account__form-label">Email</label>
+                    <input
+                      type="email"
+                      name="customer[email]"
+                      id="CustomerEmail"
+                      value="{{ customer.email }}"
+                      class="customer-account__form-input"
+                      required
+                    >
+                  </div>
+                  <div class="customer-account__form-actions">
+                    <button type="submit" class="customer-account__form-btn customer-account__form-btn--save">Save Changes</button>
+                    <button type="button" class="customer-account__form-btn customer-account__form-btn--cancel" data-cancel-edit="profile">Cancel</button>
+                  </div>
+                {% endform %}
+              </div>
               <div class="customer-account__settings-footer">
-                <a href="{{ routes.account_url }}" class="customer-account__settings-btn">Edit Profile</a>
+                <button type="button" class="customer-account__settings-btn" data-edit-profile>Edit Profile</button>
               </div>
             </div>
 
@@ -335,13 +537,43 @@
               <div class="customer-account__settings-header">
                 <h3 class="customer-account__settings-title">Password</h3>
               </div>
-              <div class="customer-account__settings-content">
+              <div class="customer-account__settings-content customer-account__settings-view">
                 <p class="customer-account__settings-description">
                   Keep your account secure with a strong password
                 </p>
               </div>
+              <div class="customer-account__settings-form" style="display: none;">
+                {% form 'customer' %}
+                  <div class="customer-account__form-field">
+                    <label for="CustomerPassword" class="customer-account__form-label">New Password</label>
+                    <input
+                      type="password"
+                      name="customer[password]"
+                      id="CustomerPassword"
+                      class="customer-account__form-input"
+                      placeholder="Enter new password"
+                      minlength="8"
+                    >
+                  </div>
+                  <div class="customer-account__form-field">
+                    <label for="CustomerPasswordConfirm" class="customer-account__form-label">Confirm Password</label>
+                    <input
+                      type="password"
+                      name="customer[password_confirmation]"
+                      id="CustomerPasswordConfirm"
+                      class="customer-account__form-input"
+                      placeholder="Confirm new password"
+                      minlength="8"
+                    >
+                  </div>
+                  <div class="customer-account__form-actions">
+                    <button type="submit" class="customer-account__form-btn customer-account__form-btn--save">Update Password</button>
+                    <button type="button" class="customer-account__form-btn customer-account__form-btn--cancel" data-cancel-edit="password">Cancel</button>
+                  </div>
+                {% endform %}
+              </div>
               <div class="customer-account__settings-footer">
-                <a href="{{ routes.account_url }}" class="customer-account__settings-btn">Change Password</a>
+                <button type="button" class="customer-account__settings-btn" data-edit-password>Change Password</button>
               </div>
             </div>
           </div>
@@ -353,31 +585,253 @@
 
 <script>
   // Navigation functionality
-  document.querySelectorAll('.customer-account__nav-item').forEach(button => {
-    button.addEventListener('click', function() {
-      const sectionId = this.dataset.section;
-      
-      // Update sidebar navigation
-      document.querySelectorAll('.customer-account__nav-item').forEach(btn => {
-        btn.classList.remove('customer-account__nav-item--active');
+  document.addEventListener('DOMContentLoaded', function() {
+    const navButtons = document.querySelectorAll('.customer-account__nav-item');
+    
+    navButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const sectionId = this.dataset.section;
+        
+        // Update sidebar navigation
+        navButtons.forEach(btn => {
+          btn.classList.remove('customer-account__nav-item--active');
+        });
+        this.classList.add('customer-account__nav-item--active');
+        
+        // Update content sections
+        document.querySelectorAll('.customer-account__section').forEach(section => {
+          section.classList.remove('customer-account__section--active');
+        });
+        
+        const targetSection = document.querySelector(`[data-section-content="${sectionId}"]`);
+        if (targetSection) {
+          targetSection.classList.add('customer-account__section--active');
+        }
       });
-      this.classList.add('customer-account__nav-item--active');
-      
-      // Update content sections
-      document.querySelectorAll('.customer-account__section').forEach(section => {
-        section.classList.remove('customer-account__section--active');
+    });
+  });
+  
+    // View All button functionality
+    document.querySelectorAll('.customer-account__view-all-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const targetSection = this.dataset.navigate;
+        const navButton = document.querySelector(`[data-section="${targetSection}"]`);
+        if (navButton) {
+          navButton.click();
+        }
       });
-      document.querySelector(`[data-section-content="${sectionId}"]`).classList.add('customer-account__section--active');
+    });
+
+    // Edit Profile functionality
+    const editProfileBtn = document.querySelector('[data-edit-profile]');
+    if (editProfileBtn) {
+      editProfileBtn.addEventListener('click', function() {
+        const card = this.closest('.customer-account__settings-card');
+        card.querySelector('.customer-account__settings-view').style.display = 'none';
+        card.querySelector('.customer-account__settings-form').style.display = 'block';
+        card.querySelector('.customer-account__settings-footer').style.display = 'none';
+      });
+    }
+
+    // Edit Password functionality
+    const editPasswordBtn = document.querySelector('[data-edit-password]');
+    if (editPasswordBtn) {
+      editPasswordBtn.addEventListener('click', function() {
+        const card = this.closest('.customer-account__settings-card');
+        card.querySelector('.customer-account__settings-view').style.display = 'none';
+        card.querySelector('.customer-account__settings-form').style.display = 'block';
+        card.querySelector('.customer-account__settings-footer').style.display = 'none';
+      });
+    }
+
+    // Cancel edit functionality
+    document.querySelectorAll('[data-cancel-edit]').forEach(button => {
+      button.addEventListener('click', function() {
+        const card = this.closest('.customer-account__settings-card');
+        card.querySelector('.customer-account__settings-view').style.display = 'block';
+        card.querySelector('.customer-account__settings-form').style.display = 'none';
+        card.querySelector('.customer-account__settings-footer').style.display = 'flex';
+      });
     });
   });
 
-  // View All button functionality
-  document.querySelectorAll('.customer-account__view-all-btn').forEach(button => {
-    button.addEventListener('click', function() {
-      const targetSection = this.dataset.navigate;
-      const navButton = document.querySelector(`[data-section="${targetSection}"]`);
-      if (navButton) {
-        navButton.click();
+  // Address form toggle
+  window.toggleAddressForm = function(addressId) {
+    if (addressId === 'new') {
+      const newForm = document.getElementById('AddressNewForm');
+      const isHidden = newForm.style.display === 'none';
+      
+      // Hide all edit forms
+      document.querySelectorAll('.customer-account__address-edit-form').forEach(form => {
+        form.style.display = 'none';
+      });
+      document.querySelectorAll('.customer-account__address-display').forEach(display => {
+        display.style.display = 'block';
+      });
+      
+      // Toggle new form
+      newForm.style.display = isHidden ? 'block' : 'none';
+      
+      if (isHidden) {
+        newForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    } else {
+      const editForm = document.getElementById(`address-edit-${addressId}`);
+      const display = document.getElementById(`address-display-${addressId}`);
+      const isHidden = editForm.style.display === 'none';
+      
+      // Hide new form
+      document.getElementById('AddressNewForm').style.display = 'none';
+      
+      // Hide all other edit forms
+      document.querySelectorAll('.customer-account__address-edit-form').forEach(form => {
+        if (form.id !== `address-edit-${addressId}`) {
+          form.style.display = 'none';
+        }
+      });
+      document.querySelectorAll('.customer-account__address-display').forEach(disp => {
+        if (disp.id !== `address-display-${addressId}`) {
+          disp.style.display = 'block';
+        }
+      });
+      
+      // Toggle this address's edit form
+      editForm.style.display = isHidden ? 'block' : 'none';
+      display.style.display = isHidden ? 'none' : 'block';
+      
+      if (isHidden) {
+        editForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+  };
+
+  // Confirm delete address
+  window.confirmDeleteAddress = function(addressId) {
+    if (confirm('Are you sure you want to delete this address?')) {
+      const deleteBtn = document.getElementById(`delete-address-${addressId}`);
+      if (deleteBtn) {
+        deleteBtn.click();
+      }
+    }
+  };
+
+  // Province/State handling for address forms
+  const Shopify = window.Shopify || {};
+  Shopify.CountryProvinceSelector = function(countryElement, provinceElement, options) {
+    this.countryEl = countryElement;
+    this.provinceEl = provinceElement;
+    this.provinceContainer = document.getElementById(options.provinceContainer) || this.provinceEl.parentElement;
+    
+    this.countryEl.addEventListener('change', () => {
+      this.onCountryChange();
+    });
+    
+    this.initCountry();
+    this.initProvince();
+  };
+  
+  Shopify.CountryProvinceSelector.prototype = {
+    initCountry: function() {
+      const value = this.countryEl.getAttribute('data-default');
+      this.countryEl.value = value || '';
+      this.onCountryChange();
+    },
+    
+    initProvince: function() {
+      const value = this.provinceEl.getAttribute('data-default');
+      if (value && this.provinceEl.options.length > 0) {
+        this.provinceEl.value = value;
+      }
+    },
+    
+    onCountryChange: function() {
+      this.updateProvince();
+    },
+    
+    updateProvince: function() {
+      const provinces = this.getProvinces();
+      this.clearOptions(this.provinceEl);
+      
+      if (provinces && provinces.length > 0) {
+        this.provinceEl.disabled = false;
+        this.provinceEl.parentElement.style.display = '';
+        
+        this.provinceEl.options.add(new Option('Select State/Province', ''));
+        
+        for (let i = 0; i < provinces.length; i++) {
+          const opt = new Option(provinces[i][0], provinces[i][1]);
+          this.provinceEl.options.add(opt);
+        }
+        
+        const defaultValue = this.provinceEl.getAttribute('data-default');
+        if (defaultValue) {
+          this.provinceEl.value = defaultValue;
+        }
+      } else {
+        this.provinceEl.disabled = true;
+        this.provinceEl.parentElement.style.display = 'none';
+      }
+    },
+    
+    clearOptions: function(selector) {
+      while (selector.firstChild) {
+        selector.removeChild(selector.firstChild);
+      }
+    },
+    
+    getProvinces: function() {
+      const countryCode = this.countryEl.value;
+      return window.Shopify.CountryProvinces[countryCode] || [];
+    }
+  };
+  
+  // Country/Province data
+  window.Shopify = window.Shopify || {};
+  window.Shopify.CountryProvinces = {
+    "United States": [
+      ["Alabama", "AL"], ["Alaska", "AK"], ["Arizona", "AZ"], ["Arkansas", "AR"],
+      ["California", "CA"], ["Colorado", "CO"], ["Connecticut", "CT"], ["Delaware", "DE"],
+      ["Florida", "FL"], ["Georgia", "GA"], ["Hawaii", "HI"], ["Idaho", "ID"],
+      ["Illinois", "IL"], ["Indiana", "IN"], ["Iowa", "IA"], ["Kansas", "KS"],
+      ["Kentucky", "KY"], ["Louisiana", "LA"], ["Maine", "ME"], ["Maryland", "MD"],
+      ["Massachusetts", "MA"], ["Michigan", "MI"], ["Minnesota", "MN"], ["Mississippi", "MS"],
+      ["Missouri", "MO"], ["Montana", "MT"], ["Nebraska", "NE"], ["Nevada", "NV"],
+      ["New Hampshire", "NH"], ["New Jersey", "NJ"], ["New Mexico", "NM"], ["New York", "NY"],
+      ["North Carolina", "NC"], ["North Dakota", "ND"], ["Ohio", "OH"], ["Oklahoma", "OK"],
+      ["Oregon", "OR"], ["Pennsylvania", "PA"], ["Rhode Island", "RI"], ["South Carolina", "SC"],
+      ["South Dakota", "SD"], ["Tennessee", "TN"], ["Texas", "TX"], ["Utah", "UT"],
+      ["Vermont", "VT"], ["Virginia", "VA"], ["Washington", "WA"], ["West Virginia", "WV"],
+      ["Wisconsin", "WI"], ["Wyoming", "WY"]
+    ],
+    "Canada": [
+      ["Alberta", "AB"], ["British Columbia", "BC"], ["Manitoba", "MB"], ["New Brunswick", "NB"],
+      ["Newfoundland and Labrador", "NL"], ["Northwest Territories", "NT"], ["Nova Scotia", "NS"],
+      ["Nunavut", "NU"], ["Ontario", "ON"], ["Prince Edward Island", "PE"], ["Quebec", "QC"],
+      ["Saskatchewan", "SK"], ["Yukon", "YT"]
+    ]
+  };
+  
+  // Initialize selectors on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    // New address form
+    if (document.getElementById('AddressCountryNew')) {
+      new Shopify.CountryProvinceSelector('AddressCountryNew', 'AddressProvinceNew', {
+        provinceContainer: 'AddressProvinceNew'
+      });
+    }
+    
+    // Edit address forms
+    const addressForms = document.querySelectorAll('[id^="AddressCountry"]');
+    addressForms.forEach(function(countrySelect) {
+      const addressId = countrySelect.id.replace('AddressCountry', '');
+      if (addressId && addressId !== 'New') {
+        const provinceSelect = document.getElementById('AddressProvince' + addressId);
+        if (provinceSelect) {
+          new Shopify.CountryProvinceSelector('AddressCountry' + addressId, 'AddressProvince' + addressId, {
+            provinceContainer: 'AddressProvince' + addressId
+          });
+        }
       }
     });
   });

@@ -1,0 +1,294 @@
+{% comment %}
+  Customer Addresses Section
+{% endcomment %}
+
+{{ 'section-customer-account.css' | asset_url | stylesheet_tag }}
+
+<div class="customer-account min-h-screen bg-gradient-to-b from-slate-50 to-white">
+  {%- comment %-%} Header {%- endcomment -%}
+  <header class="customer-account__header">
+    <div class="customer-account__header-inner">
+      <a href="{{ routes.root_url }}" class="customer-account__logo">
+        <img 
+          src="https://placehold.co/28x28/71717a/ffffff?text=H" 
+          alt="{{ shop.name }}"
+          class="customer-account__logo-img"
+          width="28"
+          height="28"
+        >
+        <span class="customer-account__logo-text">Hylee</span>
+      </a>
+      <nav class="customer-account__nav">
+        <a href="{{ routes.root_url }}" class="customer-account__nav-link">Home</a>
+        <a href="{{ routes.all_products_collection_url }}" class="customer-account__nav-link">Products</a>
+        <a href="/collections" class="customer-account__nav-link">Categories</a>
+      </nav>
+      <div class="customer-account__header-actions">
+        <a href="{{ routes.account_logout_url }}" class="customer-account__signout-btn">
+          Sign Out
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="customer-account__container">
+    <div class="customer-account__breadcrumb">
+      <a href="{{ routes.account_url }}" class="customer-account__breadcrumb-link">Account</a>
+      <span class="customer-account__breadcrumb-separator">/</span>
+      <span class="customer-account__breadcrumb-current">Addresses</span>
+    </div>
+
+    <div class="customer-account__content" style="max-width: 1200px; margin: 0 auto;">
+      <div class="customer-account__section-header">
+        <h1 class="customer-account__title">
+          {% if request.path contains '/new' %}
+            Add New Address
+          {% elsif request.path contains '/edit' %}
+            Edit Address
+          {% else %}
+            Your Addresses
+          {% endif %}
+        </h1>
+        {% unless request.path contains '/new' or request.path contains '/edit' %}
+          <a href="{{ routes.account_addresses_url }}/new" class="customer-account__add-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Add New Address
+          </a>
+        {% endunless %}
+      </div>
+
+      {% if request.path contains '/new' or request.path contains '/edit' %}
+        {%- comment %-%} Address Form {%- endcomment -%}
+        {% if request.path contains '/edit' %}
+          {% assign address_id = request.path | split: '/' | last | split: '/edit' | first %}
+          {% assign current_address = customer.addresses | where: "id", address_id | first %}
+        {% endif %}
+
+        {% form 'customer_address', current_address %}
+          <div class="customer-account__form-grid">
+            <div class="customer-account__form-field">
+              <label for="AddressFirstName" class="customer-account__form-label">First Name</label>
+              <input
+                type="text"
+                name="address[first_name]"
+                id="AddressFirstName"
+                value="{{ current_address.first_name }}"
+                class="customer-account__form-input"
+                required
+              >
+            </div>
+
+            <div class="customer-account__form-field">
+              <label for="AddressLastName" class="customer-account__form-label">Last Name</label>
+              <input
+                type="text"
+                name="address[last_name]"
+                id="AddressLastName"
+                value="{{ current_address.last_name }}"
+                class="customer-account__form-input"
+                required
+              >
+            </div>
+          </div>
+
+          <div class="customer-account__form-field">
+            <label for="AddressCompany" class="customer-account__form-label">Company (Optional)</label>
+            <input
+              type="text"
+              name="address[company]"
+              id="AddressCompany"
+              value="{{ current_address.company }}"
+              class="customer-account__form-input"
+            >
+          </div>
+
+          <div class="customer-account__form-field">
+            <label for="AddressAddress1" class="customer-account__form-label">Address</label>
+            <input
+              type="text"
+              name="address[address1]"
+              id="AddressAddress1"
+              value="{{ current_address.address1 }}"
+              class="customer-account__form-input"
+              required
+            >
+          </div>
+
+          <div class="customer-account__form-field">
+            <label for="AddressAddress2" class="customer-account__form-label">Apartment, suite, etc. (Optional)</label>
+            <input
+              type="text"
+              name="address[address2]"
+              id="AddressAddress2"
+              value="{{ current_address.address2 }}"
+              class="customer-account__form-input"
+            >
+          </div>
+
+          <div class="customer-account__form-grid">
+            <div class="customer-account__form-field">
+              <label for="AddressCity" class="customer-account__form-label">City</label>
+              <input
+                type="text"
+                name="address[city]"
+                id="AddressCity"
+                value="{{ current_address.city }}"
+                class="customer-account__form-input"
+                required
+              >
+            </div>
+
+            <div class="customer-account__form-field">
+              <label for="AddressCountry" class="customer-account__form-label">Country</label>
+              <select
+                name="address[country]"
+                id="AddressCountry"
+                class="customer-account__form-input"
+                required
+              >
+                {{ current_address.country | default: 'United States' | country_option_tags }}
+              </select>
+            </div>
+          </div>
+
+          <div class="customer-account__form-grid">
+            <div class="customer-account__form-field">
+              <label for="AddressProvince" class="customer-account__form-label">State/Province</label>
+              <input
+                type="text"
+                name="address[province]"
+                id="AddressProvince"
+                value="{{ current_address.province }}"
+                class="customer-account__form-input"
+                required
+              >
+            </div>
+
+            <div class="customer-account__form-field">
+              <label for="AddressZip" class="customer-account__form-label">ZIP/Postal Code</label>
+              <input
+                type="text"
+                name="address[zip]"
+                id="AddressZip"
+                value="{{ current_address.zip }}"
+                class="customer-account__form-input"
+                required
+              >
+            </div>
+          </div>
+
+          <div class="customer-account__form-field">
+            <label for="AddressPhone" class="customer-account__form-label">Phone (Optional)</label>
+            <input
+              type="tel"
+              name="address[phone]"
+              id="AddressPhone"
+              value="{{ current_address.phone }}"
+              class="customer-account__form-input"
+            >
+          </div>
+
+          <div class="customer-account__form-field">
+            <label class="customer-account__checkbox-wrapper">
+              <input
+                type="checkbox"
+                name="address[default]"
+                id="AddressDefault"
+                {% if current_address.default %}checked{% endif %}
+                class="customer-account__checkbox"
+              >
+              <span class="customer-account__checkbox-label">Set as default address</span>
+            </label>
+          </div>
+
+          <div class="customer-account__form-actions">
+            <button type="submit" class="customer-account__form-btn customer-account__form-btn--save">
+              {% if request.path contains '/new' %}Add Address{% else %}Save Address{% endif %}
+            </button>
+            <a href="{{ routes.account_url }}" class="customer-account__form-btn customer-account__form-btn--cancel">Cancel</a>
+          </div>
+        {% endform %}
+
+        {% if request.path contains '/edit' %}
+          <div class="customer-account__form-delete">
+            {% form 'customer_address', current_address, method: 'delete' %}
+              <button type="submit" class="customer-account__delete-btn" onclick="return confirm('Are you sure you want to delete this address?');">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                Delete Address
+              </button>
+            {% endform %}
+          </div>
+        {% endif %}
+
+      {% else %}
+        {%- comment %-%} Address List {%- endcomment -%}
+        <div class="customer-account__addresses-list">
+          {% if customer.addresses.size > 0 %}
+            {% for address in customer.addresses %}
+              <div class="customer-account__address-card">
+                {% if address.default %}
+                  <span class="customer-account__address-badge">Default</span>
+                {% endif %}
+                <div class="customer-account__address-content">
+                  <div class="customer-account__address-header">
+                    <svg class="customer-account__address-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2AC864">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span class="customer-account__address-type">
+                      {% if address.company %}{{ address.company }}{% else %}Address{% endif %}
+                    </span>
+                  </div>
+                  <p class="customer-account__address-name">{{ address.name }}</p>
+                  <p class="customer-account__address-line">{{ address.address1 }}</p>
+                  {% if address.address2 != blank %}
+                    <p class="customer-account__address-line">{{ address.address2 }}</p>
+                  {% endif %}
+                  <p class="customer-account__address-line">
+                    {{ address.city }}, {{ address.province_code }} {{ address.zip }}
+                  </p>
+                  {% if address.phone != blank %}
+                    <p class="customer-account__address-line">{{ address.phone }}</p>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="customer-account__empty-state">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <p>No addresses saved yet</p>
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {%- comment %-%} Footer {%- endcomment -%}
+  <footer class="customer-account__footer">
+    <div class="customer-account__footer-inner">
+      <p class="customer-account__footer-copyright">
+        © {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.
+      </p>
+      <div class="customer-account__footer-links">
+        <a href="/pages/privacy" class="customer-account__footer-link">Privacy Policy</a>
+        <a href="/pages/terms" class="customer-account__footer-link">Terms of Service</a>
+        <a href="/pages/contact" class="customer-account__footer-link">Contact Support</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+{% schema %}
+{
+  "name": "Customer Addresses",
+  "settings": []
+}
+{% endschema %}
