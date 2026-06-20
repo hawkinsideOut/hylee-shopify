@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {useAnalytics} from '@shopify/hydrogen';
+import {AnalyticsEvent, useAnalytics} from '@shopify/hydrogen';
 import {pushEcommerceEvent} from '~/utils/data-layer';
 import type {DataLayerItem} from '~/types/data-layer';
 
@@ -10,7 +10,8 @@ function stripGid(gid: string): string {
 function lineToItem(line: any, index: number): DataLayerItem {
   const merch = line.merchandise;
   const product = merch?.product ?? {};
-  const opts: Array<{name: string; value: string}> = merch?.selectedOptions ?? [];
+  const opts: Array<{name: string; value: string}> =
+    merch?.selectedOptions ?? [];
   const variantTitle =
     opts
       .filter((o) => !(o.name === 'Title' && o.value === 'Default Title'))
@@ -46,7 +47,7 @@ export function ShopifyAnalyticsBridge(): null {
   const {ready} = register('ShopifyAnalyticsBridge');
 
   useEffect(() => {
-    subscribe('product_add_to_cart', (payload: any) => {
+    subscribe(AnalyticsEvent.PRODUCT_ADD_TO_CART, (payload: any) => {
       const {cart, prevCart} = payload;
       const prevIds = new Set(
         (prevCart?.lines?.nodes ?? []).map((l: any) => l.id),
@@ -57,7 +58,7 @@ export function ShopifyAnalyticsBridge(): null {
       if (!added.length) return;
 
       const currency = cart?.cost?.totalAmount?.currencyCode ?? 'USD';
-      const items = added.map(lineToItem);
+      const items: DataLayerItem[] = added.map(lineToItem);
       const value = items.reduce((s, i) => s + i.price * i.quantity, 0);
       pushEcommerceEvent({
         event: 'add_to_cart',
@@ -65,7 +66,7 @@ export function ShopifyAnalyticsBridge(): null {
       });
     });
 
-    subscribe('product_removed_from_cart', (payload: any) => {
+    subscribe(AnalyticsEvent.PRODUCT_REMOVED_FROM_CART, (payload: any) => {
       const {cart, prevCart} = payload;
       const currentIds = new Set(
         (cart?.lines?.nodes ?? []).map((l: any) => l.id),
@@ -76,7 +77,7 @@ export function ShopifyAnalyticsBridge(): null {
       if (!removed.length) return;
 
       const currency = prevCart?.cost?.totalAmount?.currencyCode ?? 'USD';
-      const items = removed.map(lineToItem);
+      const items: DataLayerItem[] = removed.map(lineToItem);
       const value = items.reduce((s, i) => s + i.price * i.quantity, 0);
       pushEcommerceEvent({
         event: 'remove_from_cart',
