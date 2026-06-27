@@ -68,6 +68,7 @@ export function PageLayout({children}: PageLayoutProps) {
     categories,
     seasonalItems,
     discountItems,
+    lifestyleItems,
     currentLanguage,
     globalCms,
   } = data;
@@ -83,6 +84,7 @@ export function PageLayout({children}: PageLayoutProps) {
         categories={categories}
         seasonalItems={seasonalItems ?? []}
         discountItems={discountItems ?? []}
+        lifestyleItems={lifestyleItems ?? []}
         currentLanguage={currentLanguage ?? 'EN'}
         promoTierEnabled={globalCms?.promoTierEnabled ?? false}
         socialFacebook={globalCms?.socialFacebook ?? null}
