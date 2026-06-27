@@ -252,6 +252,7 @@ async function loadCriticalData({context, request}: Route.LoaderArgs) {
     collectionsResult,
     seasonalNavResult,
     discountsNavResult,
+    lifestyleNavResult,
     globalCmsData,
     bannerDiscountsData,
   ] = await Promise.all([
@@ -281,6 +282,15 @@ async function loadCriticalData({context, request}: Route.LoaderArgs) {
       .catch(() => null),
     storefront
       .query(DISCOUNTS_NAV_QUERY, {
+        cache: storefront.CacheLong(),
+        variables: {
+          language: currentLanguage as LanguageCode,
+          country: storefront.i18n.country,
+        },
+      })
+      .catch(() => null),
+    storefront
+      .query(LIFESTYLE_NAV_QUERY, {
         cache: storefront.CacheLong(),
         variables: {
           language: currentLanguage as LanguageCode,
@@ -381,6 +391,13 @@ async function loadCriticalData({context, request}: Route.LoaderArgs) {
     })
     .map(({priority: _p, ...item}) => item);
 
+  const lifestyleItems = (
+    [
+      lifestyleNavResult?.tinyHomeLiving,
+      lifestyleNavResult?.vanAndRvLifeEssentials,
+    ] as Array<{id: string; title: string; handle: string} | null | undefined>
+  ).filter((c): c is {id: string; title: string; handle: string} => c != null);
+
   const locale = currentLanguage.toLowerCase() as 'en' | 'es' | 'fr';
 
   let wishlistIds: string[] = [];
@@ -435,6 +452,7 @@ async function loadCriticalData({context, request}: Route.LoaderArgs) {
     categories,
     seasonalItems,
     discountItems,
+    lifestyleItems,
     currentLanguage,
     locale,
     wishlistIds,
@@ -889,6 +907,24 @@ const DISCOUNTS_NAV_QUERY = `#graphql
           }
         }
       }
+    }
+  }
+` as const;
+
+const LIFESTYLE_NAV_QUERY = `#graphql
+  query LifestyleNavItems(
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
+    tinyHomeLiving: collection(handle: "tiny-homes-living") {
+      id
+      title
+      handle
+    }
+    vanAndRvLifeEssentials: collection(handle: "van-rv-life-essentials") {
+      id
+      title
+      handle
     }
   }
 ` as const;

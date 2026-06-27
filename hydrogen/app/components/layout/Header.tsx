@@ -52,6 +52,7 @@ export interface HeaderProps {
   }>;
   seasonalItems?: Array<{id: string; title: string; handle: string}>;
   discountItems?: Array<{id: string; title: string; handle: string}>;
+  lifestyleItems?: Array<{id: string; title: string; handle: string}>;
   socialFacebook?: string | null;
   socialInstagram?: string | null;
   socialPinterest?: string | null;
@@ -82,6 +83,7 @@ interface MobileMenuProps {
   categories?: HeaderProps['categories'];
   seasonalItems?: HeaderProps['seasonalItems'];
   discountItems?: HeaderProps['discountItems'];
+  lifestyleItems?: HeaderProps['lifestyleItems'];
   socialFacebook?: string | null;
   socialInstagram?: string | null;
   socialPinterest?: string | null;
@@ -177,6 +179,41 @@ function NavDropdown({
             </DropdownMenuItem>
           ),
         )}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+// ============================================================================
+// LifestyleDropdown — "Live Well Anywhere" lifestyle collection links
+// ============================================================================
+
+function LifestyleDropdown({
+  items,
+}: {
+  items: NonNullable<HeaderProps['lifestyleItems']>;
+}) {
+  const {t} = useTranslation();
+  if (items.length === 0) return null;
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className={NAV_TRIGGER_CLASS}>
+          {t('nav.liveWellAnywhere')}
+          <ChevronDown size={16} />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start" className="min-w-48">
+        {items.map((item) => (
+          <DropdownMenuItem key={item.id} asChild>
+            <Link
+              to={`/collections/${item.handle}`}
+              className="cursor-pointer text-[14px]"
+            >
+              {item.title}
+            </Link>
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -305,6 +342,7 @@ function MobileMenu({
   categories,
   seasonalItems = [],
   discountItems = [],
+  lifestyleItems = [],
   socialFacebook,
   socialInstagram,
   socialPinterest,
@@ -329,6 +367,37 @@ function MobileMenu({
         </SheetHeader>
 
         <nav className="overflow-y-auto flex-1">
+          {lifestyleItems.length > 0 && (
+            <div className="border-b border-border">
+              <button
+                className="flex items-center justify-between w-full px-4 py-3 text-text font-medium"
+                onClick={() => toggleSection('lifestyle')}
+              >
+                <span>{t('nav.liveWellAnywhere')}</span>
+                <ChevronDown
+                  size={16}
+                  className={`transition-transform ${
+                    expandedSection === 'lifestyle' ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+              {expandedSection === 'lifestyle' && (
+                <div className="bg-surface pb-2">
+                  {lifestyleItems.map((item) => (
+                    <Link
+                      key={item.id}
+                      to={`/collections/${item.handle}`}
+                      className="block px-6 py-2 text-sm text-text hover:text-primary"
+                      onClick={onClose}
+                    >
+                      {item.title}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
           {categories && categories.length > 0 && (
             <div className="border-b border-border">
               <button
@@ -608,6 +677,7 @@ export function Header({
   categories = [],
   seasonalItems = [],
   discountItems = [],
+  lifestyleItems = [],
   socialFacebook,
   socialInstagram,
   socialPinterest,
@@ -703,6 +773,8 @@ export function Header({
 
             {/* Center column — nav links (desktop only) */}
             <nav className="hidden lg:flex items-center gap-2.5">
+              <LifestyleDropdown items={lifestyleItems} />
+
               {categories.length > 0 && (
                 <button
                   className={NAV_TRIGGER_CLASS}
@@ -904,6 +976,7 @@ export function Header({
         categories={categories}
         seasonalItems={seasonalItems}
         discountItems={discountItems}
+        lifestyleItems={lifestyleItems}
         socialFacebook={socialFacebook}
         socialInstagram={socialInstagram}
         socialPinterest={socialPinterest}
