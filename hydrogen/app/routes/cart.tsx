@@ -216,36 +216,6 @@ function CartLineRow({line, isLast}: CartLineRowProps) {
 
   if (typeof merchandise === 'string') return null;
 
-  const handleRemove = () => {
-    const {product, selectedOptions} = merchandise;
-    const variantTitle =
-      selectedOptions
-        ?.filter(
-          (o: any) => !(o.name === 'Title' && o.value === 'Default Title'),
-        )
-        .map((o: any) => o.value)
-        .join(' / ') || 'Default';
-    const unitPrice = parseFloat(cost?.amountPerQuantity?.amount ?? '0');
-    pushEcommerceEvent({
-      event: 'remove_from_cart',
-      ecommerce: {
-        currency: cost?.totalAmount?.currencyCode ?? 'USD',
-        value: unitPrice * quantity,
-        items: [
-          {
-            item_id: merchandise.sku || merchandise.id?.split('/').pop() || '',
-            item_name: product?.title ?? '',
-            item_brand: product?.vendor ?? '',
-            item_category: product?.productType ?? '',
-            item_variant: variantTitle,
-            price: unitPrice,
-            quantity,
-          },
-        ],
-      },
-    });
-  };
-
   const {product, image, selectedOptions} = merchandise;
   const lineUrl = `/products/${product.handle}`;
   const isRemoving = 'isOptimistic' in line;
